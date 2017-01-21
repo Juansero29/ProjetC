@@ -181,16 +181,17 @@ Jeu SaisirJeu(Jeu tJeux[], int nbJeux) {
     while ( index != -1){
         printf("Le nom saisi figure deja parmi les jeux existants. Voulez vous ajouter un examplaire pour le jeu \"%s\" ? (O / N)", tJeux[index].nom);
         char rep;
-        scanf("%c%*c",&rep);
-        while(strcmp(&rep,"O") != 0 || strcmp(&rep, "N") != 0){
+        scanf("%c",&rep);
+        getchar();
+        while(rep != 'O' && rep != 'N' && rep != 'o' && rep != 'n'){
             printf("Saisie incorrecte, veuillez tapper 'O' ou 'N'");
-            scanf("%c%*c",&rep);
+            scanf("%c",&rep);
+            getchar();
         }
-        if(strcmp(&rep,"O") == 0){
+        if(rep == 'o' || rep == 'O'){
             tJeux[index].nbExemplaires++;
             return jeu;
-        }
-        if(strcmp(&rep, "N") == 0){
+        }else{
             printf("Saissisez donc un nouveau nom pour le jeu : \n");
             fgets(jeu.nom, 25, stdin);
             index = RechercherJeu(tJeux, nbJeux, jeu.nom);
@@ -303,6 +304,7 @@ Adherant *ChargerTAdherants(Adherant tAdherants[], int *nbAdherants, int *taille
     return tAdherants;
 }
 Jeu *ChargerTJeux(Jeu tJeux[], int *nbJeux, int *taillePhysique, int nbAjouts) {
+    int i;
     if(*nbJeux == 0) {
         *taillePhysique += 3;
         tJeux = (Jeu *) malloc(*taillePhysique * sizeof(Jeu));
@@ -323,7 +325,9 @@ Jeu *ChargerTJeux(Jeu tJeux[], int *nbJeux, int *taillePhysique, int nbAjouts) {
             }
             tJeux = tJeuxBuffer;
         }
+
         jeu = SaisirJeu(tJeux, *nbJeux);
+        RechercherJeu(tJeux, *nbJeux, jeu.nom);
         tJeux[*nbJeux] = jeu;
     }
     return tJeux;
