@@ -1,14 +1,12 @@
 //
-// Created by Juan on 07/01/2017.
+// Created by Juan on 21/01/2017.
 //
 
-#ifndef PROJETP2_PROJET_H
 #define PROJETP2_PROJET_H
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#endif //PROJETP2_PROJET_H
 
 #define PRIXADHESION 15
 

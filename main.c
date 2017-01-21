@@ -30,10 +30,9 @@ int RechercherJeu(Jeu tJeux[], int nbJeux, char nomJeu[25]) {
     return RechercherJeu(tJeux, nbJeux - 1, nomJeu);
 }
 
-
 void Afficher1Adherant(Adherant adherant) {
 
-    printf("numAdherant : %d\tnom : %s\tprenom : %s\tnbEmpCourants : %d\t dateAdhesion : %d/%d/%d\n",
+    printf("\n ADHERANT # : %d\n\tnom : %s\n\tprenom : %s\n\tnbEmpCourants : %d\n\tdateAdhesion : %d/%d/%d\n\n",
            adherant.numAdherant, adherant.nomAdherant, adherant.prenomAdherant, adherant.nbEmpCourants,
            adherant.dateAdhesion.jour, adherant.dateAdhesion.mois, adherant.dateAdhesion.annee);
 }
@@ -63,24 +62,24 @@ void AfficherAprems(ApremTh tAprems[], int nbAprems){
 Date SaisirDate() {
     Date date;
     //todo FAIRE VERIFICATIONS POUR UNE DATE CORRECTE
-    printf("\tEntrez le numero du jour :\n");
+    printf("\n\nEntrez le numero du jour :\n");
     scanf("%d", &date.jour);
     while (date.jour < 1 || date.jour > 31) {
-        printf("\tSaisie incorrecte. Reessayez :\n");
+        printf("\nSaisie incorrecte. Reessayez :\n");
         scanf("%d", &date.jour);
     }
 
-    printf("\tEntrez numero du mois :\n");
+    printf("\nEntrez numero du mois :\n");
     scanf("%d", &date.mois);
     while (date.mois < 1 || date.mois > 12) {
-        printf("\tSaisie incorrecte. Reessayez :\n");
+        printf("\nSaisie incorrecte. Reessayez :\n");
         scanf("%d", &date.mois);
     }
 
-    printf("\tEntrez l'annee (au format AAAA):\n");
+    printf("\nEntrez l'annee (au format AAAA):\n");
     scanf("%d", &date.annee);
     while (date.annee < 1900 || date.annee > 2150) {
-        printf("\tSaisie incorrecte. Reessayez (au format AAAA) :\n");
+        printf("\nSaisie incorrecte. Reessayez (au format AAAA) :\n");
         scanf("%d", &date.annee);
     }
     printf("Date saisi avec succes! \n");
@@ -92,7 +91,7 @@ Adherant SaisirAdherant(Adherant tAdherants[], int nbAdherants) {
     printf("\n");
     Adherant adherant;
     printf("Entrez le numero de l'adherant : \n");
-    scanf("%d*c", &adherant.numAdherant);
+    scanf("%d", &adherant.numAdherant);
     getchar();
     int index = RechercherAdherant(tAdherants, nbAdherants, adherant.numAdherant);
     while (index != -1) {
@@ -102,10 +101,10 @@ Adherant SaisirAdherant(Adherant tAdherants[], int nbAdherants) {
     }
     printf("Entrez son nom (14 caracteres maximum): \n");
     fgets(adherant.nomAdherant, 15, stdin);
-    adherant.nomAdherant[strlen(adherant.nomAdherant-1)]= '\0';
+    adherant.nomAdherant[strlen(adherant.nomAdherant)]= '\0';
     printf("Entrez son prenom (14 caracteres maximum): \n");
     fgets(adherant.prenomAdherant, 15, stdin);
-    adherant.prenomAdherant[strlen(adherant.prenomAdherant-1)]= '\0';
+    adherant.prenomAdherant[strlen(adherant.prenomAdherant)]= '\0';
     printf("Vous allez maintenant saisir sa date d'adhesion :\n");
     adherant.dateAdhesion = SaisirDate();
     adherant.nbEmpCourants = 0;
@@ -283,137 +282,148 @@ Inscription SaisirInscription(ApremTh tApremTh[], int nbAprem, Adherant tAdheran
 }
 
 
-
 Adherant *ChargerTAdherants(Adherant tAdherants[], int *nbAdherants, int *taillePhysique, int nbAjouts) {
 
-    tAdherants = (Adherant *) malloc(*nbAdherants * sizeof(Adherant));
-    if (tAdherants == NULL) {
-        printf("Probleme d'allocation de memoire2");
-        exit(1);
+    if(*nbAdherants == 0) {
+        *taillePhysique += 3;
+        tAdherants = (Adherant *) malloc(*taillePhysique * sizeof(Adherant));
+        if (tAdherants == NULL) {
+            printf("Probleme d'allocation de memoire2");
+            exit(-1);
+        }
     }
-
-    Adherant *tAdherantsBuffer;
+    Adherant a, *tAdherantsBuffer;
     int i;
     for (i = 0; i < nbAjouts; i++) {
-        if (*nbAdherants + i == *taillePhysique) {
-            *taillePhysique += 3;
+        if (*nbAdherants + i == *taillePhysique) { //Si à ce moment là la taille logique est égale à la taille physique //on augmente la capacité de stockage du tableau.
+            *taillePhysique += 3; //on augmente la capacité de stockage du tableau de 3.
             tAdherantsBuffer = (Adherant *) realloc(tAdherants, *taillePhysique * sizeof(Adherant));
             if (tAdherantsBuffer == NULL) {
                 printf("Probleme d'allocation de memoire1");
                 exit(1);
             }
             tAdherants = tAdherantsBuffer;
-            free(tAdherantsBuffer);
         }
-        tAdherants[*nbAdherants + i] = SaisirAdherant(tAdherants, *nbAdherants);
+        a = SaisirAdherant(tAdherants, *nbAdherants);
+        tAdherants[*nbAdherants + i] = a;
         *nbAdherants += 1;
     }
     return tAdherants;
 }
 Jeu *ChargerTJeux(Jeu tJeux[], int *nbJeux, int *taillePhysique, int nbAjouts) {
 
-    tJeux = (Jeu *) malloc(*nbJeux * sizeof(Jeu));
-    if (tJeux == NULL) {
-        printf("Probleme d'allocation de memoire6");
-        exit(1);
+    if(*nbJeux == 0) {
+        *taillePhysique += 3;
+        tJeux = (Jeu *) malloc(*taillePhysique * sizeof(Jeu));
+        if (tJeux == NULL) {
+            printf("Probleme d'allocation de memoire2");
+            exit(-1);
+        }
     }
-
-    Jeu *tJeuxBuffer;
+    Jeu j, *tJeuxBuffer;
     int i;
     for (i = 0; i < nbAjouts; i++) {
-        if (*nbJeux + i == *taillePhysique) {
-            *taillePhysique += 3;
+        if (*nbJeux + i == *taillePhysique) { //Si à ce moment là la taille logique est égale à la taille physique
+            *taillePhysique += 3; //on augmente la capacité de stockage du tableau de 3.
             tJeuxBuffer = (Jeu *) realloc(tJeux, *taillePhysique * sizeof(Jeu));
             if (tJeuxBuffer == NULL) {
-                printf("Probleme d'allocation de memoire7");
+                printf("Probleme d'allocation de memoire1");
                 exit(1);
             }
             tJeux = tJeuxBuffer;
-            free(tJeuxBuffer);
         }
-        tJeux[*nbJeux + i] = SaisirJeu(tJeux, *nbJeux);
+        j = SaisirJeu(tJeux, *nbJeux);
+        tJeux[*nbJeux + i] = j;
         *nbJeux += 1;
     }
     return tJeux;
 }
 ApremTh *ChargerTAprem(ApremTh tAprem[], int *nbAprems, int *taillePhysique, int nbAjouts) {
 
-    tAprem = (ApremTh *) malloc(*nbAprems * sizeof(ApremTh));
-    if (tAprem == NULL) {
-        printf("Probleme d'allocation de memoire3");
-        exit(1);
-    }
 
-    ApremTh *tApremsBuffer;
+    if(*nbAprems == 0) {
+        *taillePhysique += 3;
+        tAprem = (ApremTh *) malloc(*taillePhysique * sizeof(ApremTh));
+        if (tAprem == NULL) {
+            printf("Probleme d'allocation de memoire2");
+            exit(-1);
+        }
+    }
+    ApremTh apremTh, *tApremBuffer;
     int i;
     for (i = 0; i < nbAjouts; i++) {
-        if (*nbAprems + i == *taillePhysique) {
-            *taillePhysique += 3;
-            tApremsBuffer = (ApremTh *) realloc(tAprem, *taillePhysique * sizeof(ApremTh));
-            if (tApremsBuffer == NULL) {
-                printf("Probleme d'allocation de memoire4");
+        if (*nbAprems + i == *taillePhysique) { //Si à ce moment là la taille logique est égale à la taille physique
+            *taillePhysique += 3; //on augmente la capacité de stockage du tableau de 3.
+            tApremBuffer = (ApremTh *) realloc(tAprem, *taillePhysique * sizeof(ApremTh));
+            if (tApremBuffer == NULL) {
+                printf("Probleme d'allocation de memoire1");
                 exit(1);
             }
-            tAprem = tApremsBuffer;
-            free(tApremsBuffer);
+            tAprem = tApremBuffer;
         }
-        tAprem[*nbAprems + i] = SaisirApremTh();
+        apremTh = SaisirApremTh();
+        tAprem[*nbAprems + i] = apremTh;
         *nbAprems += 1;
     }
     return tAprem;
 }
 Emprunt *ChargerTEmprunts(Adherant tAdherants[], int nbAdherants, Jeu tJeux[], int nbJeux, Emprunt tEmprunt[], int *nbEmprunts, int *taillePhysique, int nbAjouts){
-    tEmprunt = (Emprunt *) malloc(*nbEmprunts * sizeof(Emprunt));
-    if (tEmprunt == NULL) {
-        printf("Probleme d'allocation de memoire6");
-        exit(1);
-    }
 
-    Emprunt *tEmpruntsBuffer;
+
+    if(*nbEmprunts == 0) {
+        *taillePhysique += 3;
+        tEmprunt = (Emprunt *) malloc(*taillePhysique * sizeof(Emprunt));
+        if (tEmprunt == NULL) {
+            printf("Probleme d'allocation de memoire2");
+            exit(-1);
+        }
+    }
+    Emprunt emprunt, *tEmpruntBuffer;
     int i;
     for (i = 0; i < nbAjouts; i++) {
-        if (*nbEmprunts + i == *taillePhysique) {
-            *taillePhysique += 3;
-            tEmpruntsBuffer = (Emprunt *) realloc(tEmprunt, *taillePhysique * sizeof(Emprunt));
-            if (tEmpruntsBuffer == NULL) {
-                printf("Probleme d'allocation de memoire7");
+        if (*nbEmprunts + i == *taillePhysique) { //Si à ce moment là la taille logique est égale à la taille physique
+            *taillePhysique += 3; //on augmente la capacité de stockage du tableau de 3.
+            tEmpruntBuffer = (Emprunt *) realloc(tEmprunt, *taillePhysique * sizeof(Emprunt));
+            if (tEmpruntBuffer == NULL) {
+                printf("Probleme d'allocation de memoire1");
                 exit(1);
             }
-            tEmprunt = tEmpruntsBuffer;
-            free(tEmpruntsBuffer);
+            tEmprunt = tEmpruntBuffer;
         }
-        tEmprunt[*nbEmprunts + i] = SaisirEmprunt(tJeux, tAdherants, nbJeux, nbAdherants);
+        emprunt = SaisirEmprunt(tJeux, tAdherants, nbJeux, nbAdherants);
+        tEmprunt[*nbEmprunts + i] = emprunt;
         *nbEmprunts += 1;
     }
     return tEmprunt;
 }
 Inscription *ChargerTInscriptions(Inscription tInscriptions[], int *nbInscriptions,  int *taillePhysique, ApremTh tApremTh[], int nbAprems, Adherant tAdherants[], int nbAdherants, int nbAjouts) {
 
-    tInscriptions = (Inscription *) malloc(*nbInscriptions * sizeof(Inscription));
-    if (tInscriptions == NULL) {
-        printf("Probleme d'allocation de memoire6");
-        exit(1);
+    if(*nbInscriptions == 0) {
+        *taillePhysique += 3;
+        tInscriptions = (Inscription *) malloc(*taillePhysique * sizeof(Inscription));
+        if (tInscriptions == NULL) {
+            printf("Probleme d'allocation de memoire2");
+            exit(-1);
+        }
     }
-
-    Inscription *tInscriptionsBuffer;
+    Inscription inscrip, *tInscriptionBuffer;
     int i;
     for (i = 0; i < nbAjouts; i++) {
-        if (*nbInscriptions + i == *taillePhysique) {
-            *taillePhysique += 3;
-            tInscriptionsBuffer = (Inscription *) realloc(tInscriptions, *taillePhysique * sizeof(Inscription));
-            if (tInscriptionsBuffer == NULL) {
-                printf("Probleme d'allocation de memoire7");
+        if (*nbInscriptions + i == *taillePhysique) { //Si à ce moment là la taille logique est égale à la taille physique
+            *taillePhysique += 3; //on augmente la capacité de stockage du tableau de 3.
+            tInscriptionBuffer = (Inscription *) realloc(tInscriptions, *taillePhysique * sizeof(Inscription));
+            if (tInscriptionBuffer == NULL) {
+                printf("Probleme d'allocation de memoire1");
                 exit(1);
             }
-            tInscriptions = tInscriptionsBuffer;
-            free(tInscriptionsBuffer);
+            tInscriptions = tInscriptionBuffer;
         }
-        tInscriptions[*nbInscriptions + i] = SaisirInscription(tApremTh, nbAprems, tAdherants, nbAdherants);
+        inscrip = SaisirInscription(tApremTh,nbAprems, tAdherants, nbAdherants);
+        tInscriptions[*nbInscriptions + i] = inscrip;
         *nbInscriptions += 1;
     }
     return tInscriptions;
 }
-
 
 Adherant *LireTAdherants(int *nbAdherants) {
 
@@ -426,12 +436,12 @@ Adherant *LireTAdherants(int *nbAdherants) {
         *nbAdherants = -1;
         return NULL;
     }
+    fread(nbAdherants, sizeof(int), 1, fb);
     tAdherants = (Adherant *) malloc(*nbAdherants * sizeof(Adherant));
     if (tAdherants == NULL) {
         printf("Probleme d'allocation de memoire2");
         exit(1);
     }
-    fread(nbAdherants, sizeof(int), 1, fb);
     fread(tAdherants, sizeof(Adherant), (size_t)*nbAdherants, fb);
     fclose(fb);
     return tAdherants;
@@ -447,12 +457,12 @@ Jeu *LireTJeux(int *nbJeux) {
         *nbJeux = -1;
         return NULL;
     }
+    fread(nbJeux, sizeof(int), 1, fb);
     tJeux = (Jeu *) malloc(*nbJeux * sizeof(Jeu));
     if (tJeux == NULL) {
         printf("Probleme d'allocation de memoire2");
         exit(1);
     }
-    fread(nbJeux, sizeof(int), 1, fb);
     fread(tJeux, sizeof(Jeu), (size_t)*nbJeux, fb);
     fclose(fb);
     return tJeux;
@@ -468,12 +478,13 @@ ApremTh *LireTAprems(int *nbAprems) {
         *nbAprems = -1;
         return NULL;
     }
+    fread(nbAprems, sizeof(int), 1, fb);
     tAprems = (ApremTh *) malloc(*nbAprems * sizeof(ApremTh));
     if (tAprems == NULL) {
         printf("Probleme d'allocation de memoire5");
         exit(1);
     }
-    fread(nbAprems, sizeof(int), 1, fb);
+
     fread(tAprems, sizeof(ApremTh), (size_t)*nbAprems, fb);
     fclose(fb);
     return tAprems;
@@ -486,13 +497,14 @@ Emprunt *LireEmprunts(int *nbEmprunts){
         *nbEmprunts = -1;
         return NULL;
     }
+    fread(nbEmprunts, sizeof(int), 1, fb);
     Emprunt *tEmprunt;
     tEmprunt = (Emprunt*) malloc (*nbEmprunts * sizeof(Emprunt));
     if (tEmprunt == NULL){
         printf("Probleme d'allocation de memoire");
         exit(1);
     }
-    fread(nbEmprunts, sizeof(int), 1, fb);
+
     fread(tEmprunt, sizeof(Emprunt), (size_t)*nbEmprunts, fb);
     return tEmprunt;
 }
@@ -505,17 +517,19 @@ Inscription *LireInscriptions(int *nbInscriptions){
         *nbInscriptions = -1;
         return NULL;
     }
+
+    fread(nbInscriptions, sizeof(int), 1, fb);
+
     tInscription = (Inscription*) malloc(*nbInscriptions * sizeof(Inscription));
     if (tInscription == NULL) {
         printf("Probleme d'allocation de memoire5");
         exit(1);
     }
-    fread(nbInscriptions, sizeof(int), 1, fb);
+
     fread(tInscription, sizeof(ApremTh), (size_t)*nbInscriptions, fb);
     fclose(fb);
     return tInscription;
 }
-
 
 
 void SauverAdherants(Adherant tAdherants[], int nbAdherants) {
@@ -526,7 +540,6 @@ void SauverAdherants(Adherant tAdherants[], int nbAdherants) {
         printf("Probleme de droits d'ecriture dans le repertoire courant.\n");
         exit(1);
     }
-    //Ici ça crash et on sait pas pourquoi.1
     fwrite(&nbAdherants, sizeof(int), 1, fb);
     fwrite(tAdherants, sizeof(Adherant), (size_t) nbAdherants, fb);
     fclose(fb);
@@ -588,7 +601,6 @@ void Sauvegarder(Adherant tAdherants[], int nbAdherants, Jeu tJeux[], int nbJeux
 
 }
 
-
 void ToutLire(Adherant tAdherants[], int *nbAdherants, Jeu tJeux[], int *nbJeux, ApremTh tAprem[], int *nbAprems, Emprunt tEmprunts[], int *nbEmprunts, Inscription tInscriptions[], int *nbInscrits){
     if( access( "adherants.bin", F_OK ) == -1 ) {
         SauverAdherants(tAdherants, *nbAdherants);
@@ -605,6 +617,7 @@ void ToutLire(Adherant tAdherants[], int *nbAdherants, Jeu tJeux[], int *nbJeux,
     if( access( "jeux.bin", F_OK ) == -1 ) {
         SauverJeux(tJeux, *nbJeux);
     }
+
     tAdherants = LireTAdherants(nbAdherants);
     if(tAdherants==NULL){printf("Probleme de lissage.");}
     tJeux = LireTJeux(nbJeux);
@@ -664,17 +677,19 @@ int main() {
      *  todo - adhérent peut emprunter jusqu'à 3 jeux pour une durée maximale de 3 semaines.
      *  todo - vérifier si un adhérant est en retard. (utilisateur demande une liste des emprunteurs qui ont un redard).
     */
+
+    //Initialisation des tailles logiques.
     int nbAdherants=0, nbJeux=0, nbEmprunts=0, nbInscrits=0, nbAprems=0;
-    //Initialisation des variables utilises dans le programme.
-    Adherant *tAdherants=NULL; Jeu *tJeux=NULL; Emprunt *tEmprunt=NULL; Inscription *tInscription=NULL; ApremTh *tAprem=NULL;
 
-    //Sauvegarde de tous les informations (penser à l'effacer, c'est ici seulement por assurer qu'il y ait qqchose a lire.)
-    Sauvegarder(tAdherants, nbAdherants, tJeux, nbJeux, tAprem, nbAprems, tEmprunt, nbEmprunts, tInscription, nbInscrits);
+    //Initialisation des tableaux utilises dans le programme.
+    Adherant *tAdherants; Jeu *tJeux; Emprunt *tEmprunt; Inscription *tInscription; ApremTh *tAprem;
 
-    //Lire les fichiers qui sont dans le repertoire courant, charger les tableaux avec les infos.
+    //Initialisation des tailles physiques.
+    int tP_tAdh=0, tP_tJe=0, tP_tEmp=0, tP_tInsc=0, tP_tApr=0, choix = 0;
+
+    //Lire les fichiers qui sont dans le repertoire courant, récuperer les informations.
     ToutLire(tAdherants, &nbAdherants, tJeux, &nbJeux, tAprem, &nbAprems, tEmprunt, &nbEmprunts, tInscription, &nbInscrits);
 
-    int tP_tAdh=0, tP_tJe=0, tP_tEmp=0, tP_tInsc=0, tP_tApr=0, choix = 0; //Initialisation des tailles physiques.
     do
     {   int choix2 = 0;
         printf("\n\n| MENU PRINCIPAL |\n\n");
@@ -691,25 +706,24 @@ int main() {
 
         switch (choix) {
             case 1:
-                tAdherants = ChargerTAdherants(tAdherants, &nbAdherants, &tP_tAdh, 1);
-                SauverAdherants(tAdherants, nbAdherants);
+                tAdherants = ChargerTAdherants(tAdherants, &nbAdherants, &tP_tAdh, 1); //Chargue le tableau 'tAdherants' avec un Adherant.
+                SauverAdherants(tAdherants, nbAdherants); //Sauvegarde le tableau retourne dans le fichier correspondant.
                 break;
             case 2:
                 tEmprunt = ChargerTEmprunts(tAdherants, nbAdherants, tJeux, nbJeux, tEmprunt, &nbEmprunts, &tP_tEmp, 1);
-                SauverEmprunts(tEmprunt, nbEmprunts);
+                //SauverEmprunts(tEmprunt, nbEmprunts);
                 break;
             case 3:
                 tJeux = ChargerTJeux(tJeux, &nbJeux, &tP_tJe, 1);
-                SauverJeux(tJeux, nbJeux);
+                //SauverJeux(tJeux, nbJeux);
                 break;
             case 4:
                 tAprem = ChargerTAprem(tAprem, &nbAprems, &tP_tApr, 1);
-                SauverAprems(tAprem, nbAprems);
+                //SauverAprems(tAprem, nbAprems);
                 break;
             case 5:
-                tInscription = ChargerTInscriptions(tInscription, &nbInscrits, &tP_tInsc, tAprem, nbAprems, tAdherants,
-                                                    nbAdherants, 1);
-                SauverInscriptions(tInscription, nbInscrits);
+                tInscription = ChargerTInscriptions(tInscription, &nbInscrits, &tP_tInsc, tAprem, nbAprems, tAdherants, nbAdherants, 1);
+                //SauverInscriptions(tInscription, nbInscrits);
                 break;
             case 6:
                 system("cls");
@@ -764,6 +778,6 @@ int main() {
         }
 
     } while (choix != 9);
-    //Sauvegarder(tAdherants, nbAdherants, tJeux, nbJeux, tAprem, nbAprems, tEmprunt, nbEmprunts, tInscription, nbInscrits);
+    Sauvegarder(tAdherants, nbAdherants, tJeux, nbJeux, tAprem, nbAprems, tEmprunt, nbEmprunts, tInscription, nbInscrits);
     return 0;
 }
