@@ -9,7 +9,7 @@ int RechercherAdherant(Adherant tAdherants[], int nbAdherants, int numAdherant) 
     }
     return -1;
 }
-int RechercherAprem(ApremTh tAprem[], int nbAprem, int numAprem) { //C'EST QUOI L'EQUIVALENT DU NUMADHERANT POUR UNE APREM THEMATIQUE?
+int RechercherAprem(ApremTh tAprem[], int nbAprem, int numAprem) {
     int i;
     for (i = 0; i < nbAprem; i++) {
         if (tAprem[i].numAprem == numAprem)
@@ -112,7 +112,7 @@ Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdhe
     printf("\n");
     printf("|SAISIE D'UN IMPRUNT| \n");
 
-    printf("Saississez le numero de l'Adherant qui veut emprunter. ");
+    printf("Saississez le numero de l'Adherant qui veut emprunter: \n");
     scanf("%d", &emprunt.numAdherant);
     int posAdherant = RechercherAdherant(tAdherants, nbAdherants, emprunt.numAdherant);
     while (posAdherant == -1) {
@@ -177,47 +177,14 @@ Jeu SaisirJeu(Jeu tJeux[], int nbJeux) {
     getchar();
     fgets(jeu.nom, 25, stdin);
     jeu.nom[strlen(jeu.nom) - 1] = '\0';
-
-    printf("Quelle est la categorie du jeu ?(Entrez le numero correspondant)"
-                   "\n\t 1: Jeu de construction\n\t 2: Jeu de cartes"
-                   "\n\t 3: Jeu de logique\n\t 4: Jeu de plateau\n");
-    scanf("%d", &nbCateg);
-
-    while (!(nbCateg == 1 || nbCateg == 2 || nbCateg == 3 || nbCateg == 4)) {
-        printf("Saisie incorrecte. (possibilites : 1, 2, 3 ou 4)\n");
-        printf("Quelle est la categorie du jeu ?(Entrez le numero correspondant)"
-                       "\n\t 1: Jeu de construction\n\t 2: Jeu de cartes"
-                       "\n\t 3: Jeu de logique\n\t 4: Jeu de plateau\n");
-        scanf("%d", &nbCateg);
-
-        switch (nbCateg) {
-            case 1:
-                strcpy(jeu.nomCategorie, "Jeu de construction");
-                break;
-            case 2:
-                strcpy(jeu.nomCategorie, "Jeu de cartes");
-                break;
-            case 3:
-                strcpy(jeu.nomCategorie, "Jeu de logique");
-                break;
-            case 4:
-                strcpy(jeu.nomCategorie, "Jeu de plateau");
-                break;
-            default:
-                break;
-
-        }
-    }
     int index = RechercherJeu(tJeux, nbJeux, jeu.nom);
     while ( index != -1){
         printf("Le nom saisi figure deja parmi les jeux existants. Voulez vous ajouter un examplaire pour le jeu \"%s\" ? (O / N)", tJeux[index].nom);
         char rep;
-        scanf(" %c",&rep);
-        getchar();
+        scanf("%c%*c",&rep);
         while(strcmp(&rep,"O") != 0 || strcmp(&rep, "N") != 0){
             printf("Saisie incorrecte, veuillez tapper 'O' ou 'N'");
-            scanf(" %c",&rep);
-            getchar();
+            scanf("%c%*c",&rep);
         }
         if(strcmp(&rep,"O") == 0){
             tJeux[index].nbExemplaires++;
@@ -230,6 +197,36 @@ Jeu SaisirJeu(Jeu tJeux[], int nbJeux) {
             jeu.nom[strlen(jeu.nom) - 1] = '\0';
         }
     }
+    printf("Quelle est la categorie du jeu ?(Entrez le numero correspondant)"
+                   "\n\t 1: Jeu de construction\n\t 2: Jeu de cartes"
+                   "\n\t 3: Jeu de logique\n\t 4: Jeu de plateau\n");
+    scanf("%d", &nbCateg);
+
+    while (!(nbCateg == 1 || nbCateg == 2 || nbCateg == 3 || nbCateg == 4)) {
+        printf("Saisie incorrecte. (possibilites : 1, 2, 3 ou 4)\n");
+        printf("Quelle est la categorie du jeu ?(Entrez le numero correspondant)"
+                       "\n\t 1: Jeu de construction\n\t 2: Jeu de cartes"
+                       "\n\t 3: Jeu de logique\n\t 4: Jeu de plateau\n");
+        scanf("%d", &nbCateg);
+    }
+    switch (nbCateg) {
+        case 1:
+            strcpy(jeu.nomCategorie, "Jeu de construction");
+            break;
+        case 2:
+            strcpy(jeu.nomCategorie, "Jeu de cartes");
+            break;
+        case 3:
+            strcpy(jeu.nomCategorie, "Jeu de logique");
+            break;
+        case 4:
+            strcpy(jeu.nomCategorie, "Jeu de plateau");
+            break;
+        default:
+            break;
+
+    }
+
     jeu.nbExemplaires=1;
     printf("\n -- Jeu ajoute avec succes! -- \n");
     return jeu;
@@ -433,7 +430,7 @@ Adherant *LireTAdherants(int *nbAdherants) {
 Jeu *LireTJeux(int *nbJeux) {
     Jeu *tJeux;
     FILE *fb;
-    fb = fopen("adherants.bin", "rb");
+    fb = fopen("jeux.bin", "rb");
     if (fb == NULL) {
         printf("Probleme d'ouverture de fichier.\n");
         *nbJeux = -1;
@@ -491,7 +488,7 @@ Emprunt *LireEmprunts(int *nbEmprunts){
 Inscription *LireInscriptions(int *nbInscriptions){
     Inscription *tInscription;
     FILE *fb;
-    fb = fopen("am_thematiques.bin", "rb");
+    fb = fopen("inscriptions_am_th.bin", "rb");
     if (fb == NULL) {
         printf("Probleme d'ouverture de fichier.\n");
         *nbInscriptions = -1;
@@ -525,7 +522,6 @@ void SauverAdherants(Adherant tAdherants[], int nbAdherants) {
     fclose(fb);
 }
 void SauverJeux(Jeu tJeux[], int nbJeux) {
-
     FILE *fb;
     fb = fopen("jeux.bin", "wb");
     if (fb == NULL) {
