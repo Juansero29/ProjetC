@@ -526,7 +526,7 @@ void SauverAdherants(Adherant tAdherants[], int nbAdherants) {
         printf("Probleme de droits d'ecriture dans le repertoire courant.\n");
         exit(1);
     }
-    //Ici ça crash et on sait pas pourquoi.
+    //Ici ça crash et on sait pas pourquoi.1
     fwrite(&nbAdherants, sizeof(int), 1, fb);
     fwrite(tAdherants, sizeof(Adherant), (size_t) nbAdherants, fb);
     fclose(fb);
