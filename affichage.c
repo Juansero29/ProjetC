@@ -55,9 +55,9 @@ void AfficherApremsIncomplets(ApremTh tAprems[], int nbAprems) {
         }
     }
 }
-void Afficher1Aprem(ApremTh tAprems[], int nbAprems, char numAprem[5]){
+void Afficher1Aprem(ApremTh tAprems[], int nbAprems, char codeAprem[5]){
 
-    int i = RechercherAprem(tAprems, nbAprems, numAprem);
+    int i = RechercherAprem(tAprems, nbAprems, codeAprem);
     if(i != -1){
         printf("\n\nNum. Aprem: %s\nDate : %d/%d/%d\nHeure de debut: %d heures.\nNombre de places: %d\nAdherants inscrits: %d\n", tAprems[i].codeAprem, tAprems[i].date.jour, tAprems[i].date.mois, tAprems[i].date.annee, tAprems[i].heureDebut, tAprems[i].nbPlaces, tAprems[i].nbAdhInscrits);
     } else {
@@ -135,4 +135,48 @@ void AfficherRetards(Adherant tAdherants[], int nbadherants, Emprunt tEmprunts[]
     if(j==0){
         printf("\nAucun emprunt n'est pas en retard a la date.\n");
     }
+}
+
+int rechercherMin(Jeu tJeux[], int nbJeux){
+    int i, min = 0;
+    for (i = 1; i < nbJeux; i++) {
+        if(strcmp(tJeux[i].nom, tJeux[min].nom) < 0){
+            min = i;
+        }
+    }
+    return min;
+}
+void permute(Jeu tJeux[], int i, int j){
+    Jeu temp;
+    temp = tJeux[i];
+    tJeux[i] = tJeux[j];
+    tJeux[j] = temp;
+}
+void trier (Jeu tJeux[], int nb){
+    int rmin, k;
+    for (k = 0; k <= nb-2; k++){
+        rmin = rechercherMin(tJeux+k, nb-k);
+        permute(tJeux, k, rmin);
+    }
+}
+int rechercheDich(Jeu tJeux[], int nbJeux, char nom[]){
+    int pos, m;
+    if(nbJeux == 0){
+        return nbJeux;
+    }
+    if(nbJeux == 1) {
+        if (strcmp(nom, tJeux[nbJeux].nom) <= 0) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+    m = (nbJeux -1)/ 2;
+    if(strcmp(nom, tJeux[m].nom) <= 0) {
+        pos = rechercheDich(tJeux, m + 1, nom);
+    }
+    else{
+        pos = m+1+rechercheDich(tJeux+m+1, nbJeux-(m + 1), nom );
+    }
+    return pos;
 }

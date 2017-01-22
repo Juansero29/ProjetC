@@ -2,7 +2,6 @@
 // Created by Juan on 21/01/2017.
 //
 
-
 #define PRIXADHESION 15
 #define MAX_NUMADHERANT 999
 #include <unistd.h>
@@ -52,6 +51,7 @@ typedef struct {
     int numAdherant;
 }Inscription;
 
+char *CreerIdentifiant(int length);
 Date SaisirDate() ;
 Adherant SaisirAdherant(Adherant tAdherants[], int nbAdherants) ;
 Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdherants);
@@ -65,12 +65,17 @@ ApremTh *LireTAprems(int *nbAprems) ;
 Emprunt *LireEmprunts(int *nbEmprunts);
 Inscription *LireInscriptions(int *nbInscriptions);
 
+int rechercherMin(Jeu tJeux[], int nbJeux);
+void permute(Jeu tJeux[], int i, int j);
+void trier (Jeu tJeux[], int nb);
+int rechercheDich(Jeu tJeux[], int nbJeux, char nom[]);
+
 void Afficher1Adherant(Adherant adherant) ;
 void AfficherAdherants(Adherant tAdherants[], int nbAdherants) ;
 void AfficherJeux(Jeu tJeux[], int nbJeux) ;
 void AfficherAprems(ApremTh tAprems[], int nbAprems);
 void AfficherApremsIncomplets(ApremTh tAprems[], int nbAprems);
-void Afficher1Aprem(ApremTh tAprems[], int nbAprems, char numAprem[5]);
+void Afficher1Aprem(ApremTh tAprems[], int nbAprems, char codeAprem[5]);
 void AfficherAprem(ApremTh tAprems[], int nbAprems, Inscription tInscriptions[], int nbInscriptions, Adherant tAdherants[], int nbAdherants);
 void AfficherEmprunts(Emprunt tEmprunts[], int nbEmprunts);
 void AfficherRetards(Adherant tAdherants[], int nbadherants, Emprunt tEmprunts[], int nbEmprunts) ;

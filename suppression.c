@@ -1,27 +1,6 @@
 #include "projet.h"
 
-char *CreerIdentifiant(int length) {
-    char *string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.-#'?!";
-    size_t stringLen = 69;
-    char *Identifiant;
 
-    Identifiant = malloc(sizeof(char) * (length +1));
-
-    if (!Identifiant) {
-        return (char*)0;
-    }
-
-    unsigned int cle = 0;
-
-    for (int n = 0;n < length;n++) {
-        cle = rand() % stringLen;
-        Identifiant[n] = string[cle];
-    }
-
-    Identifiant[length] = '\0';
-
-    return Identifiant;
-}
 void SupprimerAdherant(Adherant tAdherants[], int *nbAdherants) {
     if(*nbAdherants <= 0){
         printf("Aucun adherant n'a ete trouve. Impossible de supprimer. \n");

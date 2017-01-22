@@ -1,8 +1,7 @@
 #include "projet.h"
+
+
 int main() {
-/*Penser à implementer les constraintes nécessaires:
-     *  todo - mettre fonctions dans .h
-     *  */
     //Initialisation des tailles logiques.
     int nbAdherants=0, nbJeux=0, nbEmprunts=0, nbInscrits=0, nbAprems=0;
 
@@ -122,6 +121,7 @@ int main() {
                     switch (choix2) {
                         case 1:
                             system("cls");
+                            trier(tJeux, nbJeux);
                             AfficherJeux(tJeux, nbJeux);
                             break;
                         case 2:
