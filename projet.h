@@ -7,12 +7,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+
+
 
 #define PRIXADHESION 15
 
 
 typedef struct {
     int jour, mois, annee;
+    char date[12];
+    time_t time;
 }Date;
 
 typedef struct {
@@ -34,10 +39,11 @@ typedef struct {
     char prenomAdherant[15];
     int nbEmpCourants;
     Date dateAdhesion;
+    int retard;
 }Adherant;
 
 typedef struct {
-    int numAprem;
+    char numAprem[6];
     Date date;
     int heureDebut;
     int nbPlaces;
@@ -46,6 +52,6 @@ typedef struct {
 }ApremTh;
 
 typedef struct {
-    int numAprem;
+    char numAprem[6];
     int numAdherant;
 }Inscription;
