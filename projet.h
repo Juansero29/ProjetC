@@ -39,7 +39,6 @@ typedef struct {
     char prenomAdherant[15];
     int nbEmpCourants;
     Date dateAdhesion;
-    int retard;
 }Adherant;
 
 typedef struct {

@@ -126,7 +126,6 @@ void SauverAdherants(Adherant tAdherants[], int nbAdherants) {
         printf("Probleme de droits d'ecriture dans le repertoire courant.\n");
         exit(1);
     }
-    //Ici ça crash et on sait pas pourquoi.
     fwrite(&nbAdherants, sizeof(int), 1, fb);
     fwrite(tAdherants, sizeof(Adherant), (size_t) nbAdherants, fb);
     fclose(fb);
@@ -139,9 +138,6 @@ int main() {
     date = SaisirDate();
 
     time_t t = time(NULL);
-    //struct tm tm = *localtime(&t);
-    //printf("now: %d-%d-%d %d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-
     double seconds;
     seconds = difftime(t, date.time);
     seconds = seconds / 60;

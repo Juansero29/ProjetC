@@ -1,8 +1,8 @@
 #include "projet.h"
 
-char *CeerIdentifiant(int length) {
+char *CreerIdentifiant(int length) {
     char *string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.-#'?!";
-    size_t stringLen = 26*2+10+7;
+    size_t stringLen = 69;
     char *Identifiant;
 
     Identifiant = malloc(sizeof(char) * (length +1));
@@ -22,7 +22,6 @@ char *CeerIdentifiant(int length) {
 
     return Identifiant;
 }
-
 
 int RechercherAdherant(Adherant tAdherants[], int nbAdherants, int numAdherant) {
     int i;
@@ -87,23 +86,21 @@ void AfficherJeux(Jeu tJeux[], int nbJeux) {
 
     int i;
     for (i = 0; i < nbJeux; i++) {
-        printf("\n\nNom : %s (%s) - # Examplaires: %d \n", tJeux[i].nom, tJeux[i].nomCategorie, tJeux[i].nbExemplaires);
+        printf("\n\nNom : %s (%s) - # Exemplaires: %d \n", tJeux[i].nom, tJeux[i].nomCategorie, tJeux[i].nbExemplaires);
     }
     if(nbJeux == 0){
         printf("\nAucun jeu n'a ete trouve.\n");
         return;
     }
 }
-void AfficherAprems(ApremTh tAprems[], int nbAprems) {
-
+void AfficherAprems(ApremTh tAprems[], int nbAprems){
     if (nbAprems == 0) {
         printf("\nAucune apres-midi n'a ete trouvee.\n");
         return;
     }
     int i;
     for (i = 0; i < nbAprems; i++) {
-        printf("\n\nNum. Aprem: %s\n Date : %d/%d/%d\n Heure de debut: %d", tAprems[i].numAprem, tAprems[i].date.jour,
-               tAprems[i].date.mois, tAprems[i].date.annee, tAprems[i].heureDebut);
+        printf("\n\nNum. Aprem: %s\n Date : %d/%d/%d\n Heure de debut: %d", tAprems[i].numAprem, tAprems[i].date.jour, tAprems[i].date.mois, tAprems[i].date.annee, tAprems[i].heureDebut);
     }
 }
 void AfficherApremsIncomplets(ApremTh tAprems[], int nbAprems) {
@@ -131,12 +128,16 @@ void Afficher1Aprem(ApremTh tAprems[], int nbAprems, char numAprem[5]){
     }
 }
 void AfficherAprem(ApremTh tAprems[], int nbAprems, Inscription tInscriptions[], int nbInscriptions, Adherant tAdherants[], int nbAdherants){
+    if(nbAprems == 0){
+        printf("\nAucun apres-midi n'a ete trouve. \n");
+        return;
+    }
     int index; char numAprem[5];
-    printf("\nSaississez le code de l'apres-midi thematique dont vous souhaitez voir la liste d'inscrits: \n");
+    printf("\nSaisissez le code de l'apres-midi thematique dont vous souhaitez voir la liste d'inscrits: \n");
     scanf("%s", numAprem);
     index = RechercherAprem(tAprems, nbAprems, numAprem);
     while (index == -1) {
-        printf("\nCet apres-midi n'existe pas, choississez-en un parmi la liste suivante: \n");
+        printf("\nCet apres-midi n'existe pas, choissisez-en un parmi la liste suivante: \n");
         AfficherAprems(tAprems, nbAprems);
         printf("\nTapez le numero de l'apres-midi:\n");
         scanf("%s", numAprem);
@@ -168,6 +169,33 @@ void AfficherEmprunts(Emprunt tEmprunts[], int nbEmprunts){
         return;
     }
 }
+void AfficherRetards(Adherant tAdherants[], int nbadherants, Emprunt tEmprunts[], int nbEmprunts) {
+    if(nbadherants <= 0 && nbEmprunts <= 0){
+        printf("\nAucun adherant ni emprunt enregistre. Impossible de detecter des retards. ");
+        return;
+    }
+    if(nbadherants <=  0){
+        printf("\nAucun adherant n'a ete trouve. Il n'y a donc pas de retards. ");
+        return;
+    }
+    if(nbEmprunts <= 0){
+        printf("\nAucun emprunt en cours. Il n'y a donc pas de retards. ");
+        return;
+    }
+    int i;
+    for (i = 0; i < nbEmprunts; i++) {
+        time_t t = time(NULL);
+        double seconds;
+        seconds = difftime(t, tEmprunts[i].dateEmprunt.time);
+        seconds = seconds / 60;
+        seconds = seconds / 60;
+        int days = (int) (seconds / 24);
+        if (days >= 21) {
+            int pos = RechercherAdherant(tAdherants, nbadherants, tEmprunts[i].numAdherant);
+            Afficher1Adherant(tAdherants[pos]);
+        }
+    }
+}
 
 
 Date SaisirDate() {
@@ -175,10 +203,9 @@ Date SaisirDate() {
     printf("\nEntrez la date en format JJ/MM/AAAA:\n");
     scanf("%d/%d/%d",&date.jour,&date.mois,&date.annee);
     while(date.jour < 1 || date.jour > 31 && date.mois < 1 || date.mois > 12 && date.annee < 1900 || date.annee > 2150){
-        printf("\nSaisie incorrecte. Reessayez (au format JJ/MM/AAAA) :\n");
-        scanf("%d/%d/%d",&date.jour,&date.mois,&date.annee);
+            printf("\nSaisie incorrecte. Reessayez (au format JJ/MM/AAAA) :\n");
+            scanf("%d/%d/%d", &date.jour, &date.mois, &date.annee);
     }
-    printf("-- Date saisi avec succes! --\n\n");
 
     struct tm *temps;
         time_t tempsOr;
@@ -188,7 +215,7 @@ Date SaisirDate() {
         temps->tm_mon = date.mois - 1;
         temps->tm_mday = date.jour;
     date.time = mktime(temps);
-    printf("-- Date saisi avec succes! :  %d/%d/%d\n", temps->tm_mday, temps->tm_mon + 1,temps->tm_year + 1900);
+    printf("-- Date saisi avec succes :  %d/%d/%d --\n", temps->tm_mday, temps->tm_mon + 1,temps->tm_year + 1900);
 
     return date;
 }
@@ -197,13 +224,14 @@ Adherant SaisirAdherant(Adherant tAdherants[], int nbAdherants) {
     printf("|SAISIE D'UN ADHERANT| \n");
     printf("\n");
     Adherant adherant;
-    adherant.numAdherant = (int)CeerIdentifiant(2);
-    printf("Num. Adherant: %d\n", adherant.numAdherant);
+
+    adherant.numAdherant = (int) CreerIdentifiant(4);
     int index = RechercherAdherant(tAdherants, nbAdherants, adherant.numAdherant);
     while (index != -1) {
-        adherant.numAdherant = (int)CeerIdentifiant(2);
+        adherant.numAdherant = (int) CreerIdentifiant(4);
         index = RechercherAdherant(tAdherants, nbAdherants, adherant.numAdherant);
     }
+    printf("Num. Adherant: %d\n", adherant.numAdherant);
     getchar();
     printf("Entrez son nom (14 caracteres maximum): \n");
     fgets(adherant.nomAdherant, 15, stdin);
@@ -221,9 +249,9 @@ Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdhe
 
     Emprunt emprunt;
     printf("\n");
-    printf("|SAISIE D'UN IMPRUNT| \n");
+    printf("|SAISIE D'UN EMPRUNT| \n");
 
-    printf("Saississez le numero de l'Adherant qui veut emprunter: \n");
+    printf("Saisissez le numero de l'Adherant qui veut emprunter : \n");
     getchar();
     scanf("%d", &emprunt.numAdherant);
     int posAdherant = RechercherAdherant(tAdherants, nbAdherants, emprunt.numAdherant);
@@ -234,8 +262,17 @@ Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdhe
         scanf("%d", &emprunt.numAdherant);
         posAdherant = RechercherAdherant(tAdherants, nbAdherants, emprunt.numAdherant);
     }
+    time_t t = time(NULL);
+    double seconds = difftime(t, tAdherants[posAdherant].dateAdhesion.time);
+    seconds = seconds / 60;
+    seconds = seconds / 60;
+    int jours = (int) (seconds / 24);
+    if (jours > 365) {
+        printf("L'adhesion de cet adherant est expire! Payez 15 euros a la caisse fdp.");
+        return emprunt;
+    }
     if (tAdherants[posAdherant].nbEmpCourants >= 3){
-        printf("L'adherant %s emprunte deja 3 jeux. Il doit en ramener avant de pouvoir reemprunter", tAdherants[posAdherant].nomAdherant);
+        printf("L'adherant %s emprunte deja 3 jeux. Il doit en ramener avant de pouvoir reemprunter.", tAdherants[posAdherant].nomAdherant);
     }
     printf("Vous allez saisir la date de l'emprunt: \n");
     emprunt.dateEmprunt = SaisirDate();
@@ -255,7 +292,7 @@ Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdhe
         posJeu = RechercherJeu(tJeux, nbJeux, emprunt.nomJeu);
     }
     if (tJeux[posJeu].nbExemplaires - tJeux[posJeu].nbEmprunts == 0){
-        printf("Ce jeu ne peut pas être emprunte car tous les exemplaires sont actuellement empruntes.");
+        printf("Ce jeu ne peut pas etre emprunte, car tous les exemplaires sont actuellement empruntes.");
         return emprunt;
     } else{
         tJeux[posJeu].nbEmprunts++;
@@ -267,22 +304,22 @@ ApremTh SaisirApremTh(ApremTh tAprems[], int nbAprems) {
 
     ApremTh apremTh;
     apremTh.date = SaisirDate();
-    printf("Quelle est le nombre correspondant à l'heurede debut de l'evenement? (Format 24H)\n");
+    printf("Quelle est le nombre correspondant à l'heure de debut de l'evenement ? (format 24h) :\n");
     scanf("%d", &apremTh.heureDebut);
     while (apremTh.heureDebut < 1 || apremTh.heureDebut > 23) {
-        printf("Saisie incorrecte (Format 24 H). Reessayez :\n");
+        printf("Saisie incorrecte (format 24h, entrez 2 chiffres). Reessayez :\n");
         scanf("%d", &apremTh.heureDebut);
     }
     printf("Quel sera le nombre de places ?\n");
     scanf("%d", &apremTh.nbPlaces);
     apremTh.nbAdhInscrits = 0;
-    strcpy(apremTh.numAprem, CeerIdentifiant(5));
+    strcpy(apremTh.numAprem, CreerIdentifiant(5));
     int index = RechercherAprem(tAprems, nbAprems, apremTh.numAprem);
     while (index != -1) {
-        strcpy(apremTh.numAprem, CeerIdentifiant(5));
+        strcpy(apremTh.numAprem, CreerIdentifiant(5));
         index = RechercherAprem(tAprems, nbAprems, apremTh.numAprem);
     }
-    printf("\n-- Apres-midi thematique saisie avec succes! --\n");
+    printf("\n-- Apres-midi thematique cree avec succes! --\n");
     return apremTh;
 }
 Jeu SaisirJeu(Jeu tJeux[], int nbJeux, int *indexDoublon) {
@@ -351,8 +388,7 @@ Jeu SaisirJeu(Jeu tJeux[], int nbJeux, int *indexDoublon) {
     printf("\n -- Jeu ajoute avec succes! -- \n");
     return jeu;
 }
-Inscription
-SaisirInscription(ApremTh tApremTh[], int nbAprem, Adherant tAdherants[], int nbAdherants, Inscription tInscriptions[], int nbInscriptions) {
+Inscription SaisirInscription(ApremTh tApremTh[], int nbAprem, Adherant tAdherants[], int nbAdherants, Inscription tInscriptions[], int nbInscriptions) {
     Inscription inscrip;
     int indexAprem, indexAdherant;
     char *numAprem;
@@ -369,15 +405,19 @@ SaisirInscription(ApremTh tApremTh[], int nbAprem, Adherant tAdherants[], int nb
         scanf("%s", numAprem);
         indexAprem = RechercherAprem(tApremTh, nbAprem, numAprem);
     }
-    if (tApremTh[indexAprem].nbPlaces == tApremTh[indexAprem].nbAdhInscrits) {
-        printf("Il ne reste plus de places pour cet evenement. Impossible d'inscrire quelqu'un de plus");
-        inscrip.numAdherant = -1;
-        return inscrip;
-    }
-
     printf("\n\nL'apres-midi a ete trouve: \nNum. Aprem: %s\n Date : %d/%d/%d\n Heure de debut: %d heures.\n\n",
            tApremTh[indexAprem].numAprem, tApremTh[indexAprem].date.jour, tApremTh[indexAprem].date.mois,
            tApremTh[indexAprem].date.annee, tApremTh[indexAprem].heureDebut);
+    if (tApremTh[indexAprem].nbPlaces == tApremTh[indexAprem].nbAdhInscrits) {
+        printf("Il ne reste plus de places pour cet evenement. Impossible d'inscrire quelqu'un de plus");
+        inscrip.numAdherant = 0;
+        return inscrip;
+    }
+    // todo voulez-vous inscrire l'adhérant à une autre aprem ?
+
+    strcpy(inscrip.numAprem, numAprem);
+
+    tApremTh[indexAprem].nbAdhInscrits++;
 
     printf("Quel est le numero de l'Adherant a inscrire ?\n");
     scanf("%d", &numAdherant);
@@ -400,7 +440,7 @@ SaisirInscription(ApremTh tApremTh[], int nbAprem, Adherant tAdherants[], int nb
     tApremTh[indexAprem].nbAdhInscrits++;
     inscrip.numAdherant = numAdherant;
 
-    printf("\n — Adherant inscrit avec succes! —\n");
+    printf("\n -- Adherant inscrit avec succes! --\n");
     return inscrip;
 }
 
@@ -411,7 +451,7 @@ Adherant *ChargerTAdherants(Adherant tAdherants[], int *nbAdherants, int *taille
         tAdherants = (Adherant *) malloc(*taillePhysique * sizeof(Adherant));
         if (tAdherants == NULL) {
             printf("Probleme d'allocation de memoire (malloc tAdherants)");
-            exit(-1);
+            exit(1);
         }
     }
     Adherant a, *tAdherantsBuffer;
@@ -437,7 +477,7 @@ Jeu *ChargerTJeux(Jeu tJeux[], int *nbJeux, int *taillePhysique, int nbAjouts) {
         tJeux = (Jeu *) malloc(*taillePhysique * sizeof(Jeu));
         if (tJeux == NULL) {
             printf("Probleme d'allocation de memoire (malloc tAdherants)");
-            exit(-1);
+            exit(1);
         }
     }
     Jeu jeu, *tJeuxBuffer;
@@ -471,7 +511,7 @@ ApremTh *ChargerTAprem(ApremTh tAprem[], int *nbAprems, int *taillePhysique, int
         tAprem = (ApremTh *) malloc(*taillePhysique * sizeof(ApremTh));
         if (tAprem == NULL) {
             printf("Probleme d'allocation de memoire (malloc tAdherants)");
-            exit(-1);
+            exit(1);
         }
     }
     ApremTh aprem, *tApremBuffer;
@@ -497,7 +537,7 @@ Emprunt *ChargerTEmprunts(Adherant tAdherants[], int nbAdherants, Jeu tJeux[], i
         tEmprunt = (Emprunt *) malloc(*taillePhysique * sizeof(Emprunt));
         if (tEmprunt == NULL) {
             printf("Probleme d'allocation de memoire (malloc tAdherants)");
-            exit(-1);
+            exit(1);
         }
     }
     Emprunt emprunt, *tEmpruntBuffer;
@@ -517,10 +557,8 @@ Emprunt *ChargerTEmprunts(Adherant tAdherants[], int nbAdherants, Jeu tJeux[], i
     }
     return tEmprunt;
 }
-Inscription *
-ChargerTInscriptions(Inscription tInscriptions[], int *nbInscriptions, int *taillePhysique, ApremTh tApremTh[],
-                     int nbAprems, Adherant tAdherants[], int nbAdherants, int nbAjouts) {
-    if (*nbInscriptions == 0) {
+Inscription *ChargerTInscriptions(Inscription tInscriptions[], int *nbInscriptions,  int *taillePhysique, ApremTh tApremTh[], int nbAprems, Adherant tAdherants[], int nbAdherants, int nbAjouts) {
+    if(*nbInscriptions == 0) {
         *taillePhysique += 3;
         tInscriptions = (Inscription *) malloc(*taillePhysique * sizeof(Inscription));
         if (tInscriptions == NULL) {
@@ -652,7 +690,6 @@ Inscription *LireInscriptions(int *nbInscriptions){
     return tInscription;
 }
 
-
 void SauverAdherants(Adherant tAdherants[], int nbAdherants) {
 
     FILE *fb;
@@ -754,7 +791,7 @@ void SupprimerAdherant(Adherant tAdherants[], int *nbAdherants) {
 
     int i, numAdherant;
     printf("\n|SUPRESSION D'UN ADHERANT|\n");
-    printf("Saississez le numero de l'adherant a supprimmer: ");
+    printf("Saisissez le numero de l'adherant a supprimer: ");
     scanf("%d", &numAdherant);
     int posAdherant = RechercherAdherant(tAdherants, *nbAdherants, numAdherant);
     if (posAdherant == -1) {
@@ -770,6 +807,7 @@ void SupprimerAdherant(Adherant tAdherants[], int *nbAdherants) {
 void SupprimerJeu(Jeu tJeux[], int *nbJeux){
     int index, i;
     char nom[20];
+    // todo il n'est possible de supprimer un jeu que lorsqu'il n'a pas d'emprunts en cours !
     printf("Saissisez le nom du jeu a supprimer: \n");
     getchar();
     fgets(nom, 25, stdin);
@@ -782,7 +820,7 @@ void SupprimerJeu(Jeu tJeux[], int *nbJeux){
         printf("Le jeu \"%s\" a %d emprunts en cours et %d exemplaires en stock. Etes-vous sur de vouloir effectuer cette suppression? (O / N)\n", tJeux[index].nom, tJeux[index].nbEmprunts, tJeux[index].nbExemplaires);
         scanf("%c", &rep);
         while (rep != 'O' && rep != 'N' && rep != 'o' && rep != 'n') {
-            printf("Saisie incorrecte, veuillez tapper 'O' ou 'N'");
+            printf("Saisie incorrecte, veuillez taper 'O' ou 'N'");
             scanf("%c", &rep);
             getchar();
         }
@@ -808,7 +846,7 @@ void SupprimerJeu(Jeu tJeux[], int *nbJeux){
 void RetournerEmprunt(Emprunt tEmprunts[], int *nbEmprunts, Adherant tAdherants[], int nbAdherants, Jeu tJeux[], int nbJeux){
     Emprunt emprunt; int i;
     printf("\n| RETOURNER UN EMPRUNT |\n");
-    printf("Saississez le numero de l'Adherant qui veut retourner un emprunt: \n");
+    printf("Saisissez le numero de l'Adherant qui retourne un emprunt: \n");
     getchar();
     scanf("%d", &emprunt.numAdherant);
     int posAdherant = RechercherAdherant(tAdherants, nbAdherants, emprunt.numAdherant);
@@ -823,6 +861,7 @@ void RetournerEmprunt(Emprunt tEmprunts[], int *nbEmprunts, Adherant tAdherants[
     getchar();
     fgets(emprunt.nomJeu, 25, stdin);
     emprunt.nomJeu[strlen(emprunt.nomJeu) - 1] = '\0';
+    // todo a ameliorer : on montre les emprunts qu'a fait cet adherant, et on fait un while pour que l'utilisateur selectionne un des elements de la liste
 
     int posEmprunt = RechercherEmprunt(tEmprunts, *nbEmprunts, emprunt.numAdherant, emprunt.nomJeu);
     if(posEmprunt == -1){
@@ -840,13 +879,12 @@ void RetournerEmprunt(Emprunt tEmprunts[], int *nbEmprunts, Adherant tAdherants[
     if(jours > 21){
         int retard = jours - 21;
         printf("Cet emprunt a ete rendu avec un retard de %d jours.\n", retard);
-        tAdherants[posAdherant].retard = 1;
     }
     int posJeu = RechercherJeu(tJeux, nbJeux, emprunt.nomJeu);
     tJeux[posJeu].nbEmprunts--;
     tAdherants[posAdherant].nbEmpCourants--;
     for (i = posEmprunt; i < *nbEmprunts - 1; i++){
-        tJeux[i] = tJeux[i +1];
+        tEmprunts[i] = tEmprunts[i +1];
     }
     *nbEmprunts = *nbEmprunts - 1;
     printf(" -- Emprunt retourne avec succes! --");
@@ -855,35 +893,37 @@ void SupprimerInscription(Inscription tInscriptions[], int *nbInscriptions, Apre
     int numAdherant, index;
     char *numAprem;
     numAprem = malloc(sizeof(char) * (6));
-    printf("\n|ANULLER UNE INSCRIPTION A UNE APRES-MIDI|\n");
-    printf("Saississez le numero de l'adherant qui veut annuller l'inscription: ");
+    printf("\n|ANNULER L'INSCRIPTION A UNE APRES-MIDI|\n");
+    printf("Saisissez le numero de l'adherant qui veut annuler son inscription : ");
     scanf("%d", &numAdherant);
     index = RechercherAdherant(tAdherants, nbAdherants, numAdherant);
     while (index == -1) {
         printf("Numero d'adherant inconnu. Faites un choix parmi la liste suivante :\n");
         AfficherAdherants(tAdherants, nbAdherants);
-        printf("\n\t Reessayez. Saissisez le numero de l'Adherant a inscrire: \n");
+        printf("\n\t Reessayez. Saissisez le numero de l'Adherant a inscrire : \n");
         scanf("%d", &numAdherant);
         index = RechercherAdherant(tAdherants, nbAdherants, numAdherant);
     }
-    printf("Cet adherant est inscrit a les apres-midis suivants: \n");
+    // todo verifier que l'adherant soit inscrit a au moins une aprem
+    printf("Cet adherant est inscrit aux apres-midis suivantes: \n");
     int i;
     for(i=0; i < *nbInscriptions; i++){
         if(tInscriptions[i].numAdherant == numAdherant){
             Afficher1Aprem(tAprems, nbAprems, tInscriptions[i].numAprem);
         }
     }
-    printf("\n\nTappez le numero d'apres-midi dont il veut sortir.\n");
+    printf("\n\nEntrez le numero d'apres-midi de laquelle il veut se desinscrire.\n");
     scanf("%s", numAprem);
     index = RechercherAprem(tAprems, nbAprems, numAprem);
+    // todo verifier que l'adherant est inscrit a cette aprem
     while (index == -1) {
-        printf("\nCet apres-midi n'existe pas, essayez d'en tapper un de ceux parmi la liste suivante: \n");
+        printf("\nL'adherant n'est pas inscrit a cette apres-midi. Voici celles auxquelles il l'est :\n");
         for(i=0; i < nbAprems; i++){
             if(tInscriptions[i].numAdherant == numAdherant){
                 Afficher1Aprem(tAprems, nbAprems, tInscriptions[i].numAprem);
             }
         }
-        printf("\n\nTappez le numero de l'apres-midi: \n");
+        printf("\n\nEntrez le numero de l'apres-midi: \n");
         scanf("%s", numAprem);
         index = RechercherAprem(tAprems, nbAprems, numAprem);
     }
@@ -895,18 +935,15 @@ void SupprimerInscription(Inscription tInscriptions[], int *nbInscriptions, Apre
     }
     *nbInscriptions = *nbInscriptions - 1;
     printf("-- Le adherant a bien annule son inscription! --\n");
-
-
 }
 
 
 int main() {
 /*Penser à implementer les constraintes nécessaires:
-     *  todo - adhérent peut emprunter jusqu'à 3 jeux pour une durée maximale de 3 semaines.
-     *  todo - vérifier si un adhérant est en retard. (utilisateur demande une liste des emprunteurs qui ont un retard).
      *  todo - mettre fonctions dans .h
      *  todo - "A la date d'anniversaire de son adhesion, l'adherant doit payer de nouveau une adhesion, sinon il ne peut plus emprunter"
     */
+
     //Initialisation des tailles logiques.
     int nbAdherants=0, nbJeux=0, nbEmprunts=0, nbInscrits=0, nbAprems=0;
 
@@ -992,21 +1029,27 @@ int main() {
                     scanf("%d", &choix2);
                     switch (choix2) {
                         case 1:
+                            system("cls");
                             AfficherJeux(tJeux, nbJeux);
                             break;
                         case 2:
+                            system("cls");
                             AfficherAdherants(tAdherants, nbAdherants);
                             break;
                         case 3:
+                            system("cls");
                             AfficherEmprunts(tEmprunt, nbEmprunts);
                             break;
                         case 4:
+                            system("cls");
                             AfficherAprem(tAprem,nbAprems,tInscription,nbInscrits,tAdherants,nbAdherants);
                             break;
                         case 5:
                             system("cls");
+                            AfficherRetards(tAdherants, nbAdherants, tEmprunt, nbEmprunts);
                             break;
                         case 6:
+                            system("cls");
                             break;
                         default:
                             printf("Faites une choix parmi les options presentees.\n");
