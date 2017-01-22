@@ -2,16 +2,15 @@
 // Created by Juan on 21/01/2017.
 //
 
-#define PROJETP2_PROJET_H
+
+#define PRIXADHESION 15
+#define MAX_NUMADHERANT 999
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
-
-
-#define PRIXADHESION 15
 
 
 typedef struct {
