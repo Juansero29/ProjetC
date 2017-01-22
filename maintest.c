@@ -26,29 +26,26 @@ int RechercherAdherant(Adherant tAdherants[], int nbAdherants, int numAdherant) 
 Date SaisirDate() {
     Date date;
     //todo FAIRE VERIFICATIONS POUR UNE DATE CORRECTE
-    printf("\n\nEntrez le numero du jour :\n");
-    scanf("%d", &date.jour);
-    while (date.jour < 1 || date.jour > 31) {
-        printf("\nSaisie incorrecte. Reessayez :\n");
-        scanf("%d", &date.jour);
+    printf("\nEntrez la date en format JJ/MM/AAAA:\n");
+    scanf("%d/%d/%d",&date.jour,&date.mois,&date.annee);
+    while(date.jour < 1 || date.jour > 31 && date.mois < 1 || date.mois > 12 && date.annee < 1900 || date.annee > 2150){
+        printf("\nSaisie incorrecte. Reessayez (au format JJ/MM/AAAA) :\n");
+        scanf("%d/%d/%d",&date.jour,&date.mois,&date.annee);
     }
+    printf("-- Date saisi avec succes! --\n\n");
 
-    printf("\nEntrez numero du mois :\n");
-    scanf("%d", &date.mois);
-    while (date.mois < 1 || date.mois > 12) {
-        printf("\nSaisie incorrecte. Reessayez :\n");
-        scanf("%d", &date.mois);
-    }
+    struct tm *temps;
+    time_t tempsOr;
+    time(&tempsOr);
+    temps = localtime(&tempsOr);
+    temps->tm_year = date.annee - 1900;
+    temps->tm_mon = date.mois - 1;
+    temps->tm_mday = date.jour;
+    date.time = mktime(temps);
 
-    printf("\nEntrez l'annee (au format AAAA):\n");
-    scanf("%d", &date.annee);
-    while (date.annee < 1900 || date.annee > 2150) {
-        printf("\nSaisie incorrecte. Reessayez (au format AAAA) :\n");
-        scanf("%d", &date.annee);
-    }
-    printf("Date saisi avec succes! \n");
     return date;
 }
+
 Adherant SaisirAdherant(Adherant tAdherants[], int nbAdherants) {
     printf("\n");
     printf("|SAISIE D'UN ADHERANT| \n");
@@ -137,34 +134,18 @@ void SauverAdherants(Adherant tAdherants[], int nbAdherants) {
 
 
 int main() {
-    /*Penser à implementer les constraintes nécessaires:
-     *  todo - adhérent peut emprunter jusqu'à 3 jeux pour une durée maximale de 3 semaines.
-     *  todo - vérifier si un adhérant est en retard. (utilisateur demande une liste des emprunteurs qui ont un redard).
-    */
-    int nbAdherants=0;
-    //Initialisation des variables utilises dans le programme.
 
-    Adherant *tAdherants=NULL;
-    int tphysique = 0;
+    Date date;
+    date = SaisirDate();
 
-    if( access( "adherants.bin", F_OK ) == -1 ) {
-        SauverAdherants(tAdherants, nbAdherants);
-    }
-    tAdherants = LireTAdherants(&nbAdherants); //Lecture directe dans le main.
-    AfficherAdherants(tAdherants, nbAdherants);
-    SauverAdherants(tAdherants, nbAdherants);
-    free(tAdherants);
+    time_t t = time(NULL);
+    //struct tm tm = *localtime(&t);
+    //printf("now: %d-%d-%d %d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 
-
-    printf("\nRien\n");
-    AfficherAdherants(tAdherants, nbAdherants);
-
-    printf("\nTout\n");
-    tAdherants = LireTAdherants(&nbAdherants);
-    AfficherAdherants(tAdherants, nbAdherants);
-    free(tAdherants);
-
-    printf("\nEssaie avec tout lire\n");
-    AfficherAdherants(tAdherants, nbAdherants);
-    return 0;
+    double seconds;
+    seconds = difftime(t, date.time);
+    seconds = seconds / 60;
+    seconds = seconds / 60;
+    int days = (int)(seconds / 24);
+    printf("La difference entre les deux dates est de %d jours", days);
 }
