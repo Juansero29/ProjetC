@@ -25,7 +25,6 @@ int RechercherAdherant(Adherant tAdherants[], int nbAdherants, int numAdherant) 
 
 Date SaisirDate() {
     Date date;
-    //todo FAIRE VERIFICATIONS POUR UNE DATE CORRECTE
     printf("\nEntrez la date en format JJ/MM/AAAA:\n");
     scanf("%d/%d/%d",&date.jour,&date.mois,&date.annee);
     while(date.jour < 1 || date.jour > 31 && date.mois < 1 || date.mois > 12 && date.annee < 1900 || date.annee > 2150){

@@ -42,7 +42,7 @@ typedef struct {
 }Adherant;
 
 typedef struct {
-    char numAprem[6];
+    char codeAprem[6];
     Date date;
     int heureDebut;
     int nbPlaces;
@@ -51,6 +51,6 @@ typedef struct {
 }ApremTh;
 
 typedef struct {
-    char numAprem[6];
+    char codeAprem[6];
     int numAdherant;
 }Inscription;
