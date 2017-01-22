@@ -128,6 +128,9 @@ void AfficherAprem(ApremTh tAprems[], int nbAprems, Inscription tInscriptions[],
     }
     int i;
     printf("\n| ADHERANTS INSCRITS |\n");
+    if(tAprems[index].nbAdhInscrits == 0){
+        printf("\nAucun adherent n'est inscrit dans cet apres-midi\n");
+    }
     for(i=0; i < nbInscriptions; i++){
         if(strcmp(tInscriptions[i].numAprem, numAprem) == 0){
             index = RechercherAdherant(tAdherants,nbAdherants,tInscriptions[i].numAdherant);
