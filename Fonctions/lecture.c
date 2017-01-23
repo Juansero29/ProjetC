@@ -2,7 +2,7 @@
 Adherant *LireTAdherants(int *nbAdherants) {
     Adherant *tAdherants;
     FILE *fb;
-    fb = fopen("bin/adherants.bin", "rb");
+    fb = fopen("adherants.bin", "rb");
     if (fb == NULL) {
         printf("Probleme d'ouverture de fichier.\n");
         *nbAdherants = -1;
@@ -21,7 +21,7 @@ Adherant *LireTAdherants(int *nbAdherants) {
 Jeu *LireTJeux(int *nbJeux) {
     Jeu *tJeux;
     FILE *fb;
-    fb = fopen("bin/jeux.bin", "rb");
+    fb = fopen("jeux.bin", "rb");
     if (fb == NULL) {
         printf("Probleme d'ouverture de fichier.\n");
         *nbJeux = -1;
@@ -40,7 +40,7 @@ Jeu *LireTJeux(int *nbJeux) {
 ApremTh *LireTAprems(int *nbAprems) {
     ApremTh *tAprems;
     FILE *fb;
-    fb = fopen("bin/am_thematiques.bin", "rb");
+    fb = fopen("am_thematiques.bin", "rb");
     if (fb == NULL) {
         printf("Probleme d'ouverture de fichier.\n");
         *nbAprems = -1;
@@ -59,7 +59,7 @@ ApremTh *LireTAprems(int *nbAprems) {
 }
 Emprunt *LireEmprunts(int *nbEmprunts){
     FILE *fb;
-    fb = fopen("bin/emprunts.bin", "rb");
+    fb = fopen("emprunts.bin", "rb");
     if (fb == NULL){
         printf("Probleme d'ouverture de ficiher. \n");
         *nbEmprunts = -1;
@@ -79,7 +79,7 @@ Emprunt *LireEmprunts(int *nbEmprunts){
 Inscription *LireInscriptions(int *nbInscriptions){
     Inscription *tInscription;
     FILE *fb;
-    fb = fopen("bin/inscriptions_am_th.bin", "rb");
+    fb = fopen("inscriptions_am_th.bin", "rb");
     if (fb == NULL) {
         printf("Probleme d'ouverture de fichier.\n");
         *nbInscriptions = -1;

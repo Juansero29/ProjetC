@@ -3,7 +3,7 @@
 void SauverAdherants(Adherant tAdherants[], int nbAdherants) {
 
     FILE *fb;
-    fb = fopen("bin/adherants.bin", "wb");
+    fb = fopen("adherants.bin", "wb");
     if (fb == NULL) {
         printf("Probleme de droits d'ecriture dans le repertoire courant.\n");
         exit(1);
@@ -14,7 +14,7 @@ void SauverAdherants(Adherant tAdherants[], int nbAdherants) {
 }
 void SauverJeux(Jeu tJeux[], int nbJeux) {
     FILE *fb;
-    fb = fopen("bin/jeux.bin", "wb");
+    fb = fopen("jeux.bin", "wb");
     if (fb == NULL) {
         printf("Probleme de droits d'ecriture dans le repertoire courant.\n");
         exit(1);
@@ -26,7 +26,7 @@ void SauverJeux(Jeu tJeux[], int nbJeux) {
 void SauverAprems(ApremTh tAprem[], int nbAprem) {
 
     FILE *fb;
-    fb = fopen("bin/am_thematiques.bin", "wb");
+    fb = fopen("am_thematiques.bin", "wb");
     if (fb == NULL) {
         printf("Probleme de droits d'ecriture dans le repertoire courant.\n");
         exit(1);
@@ -38,7 +38,7 @@ void SauverAprems(ApremTh tAprem[], int nbAprem) {
 void SauverEmprunts(Emprunt tEmprunts[], int nbEmprunts) {
 
     FILE *fb;
-    fb = fopen("bin/emprunts.bin", "wb");
+    fb = fopen("emprunts.bin", "wb");
     if (fb == NULL) {
         printf("Probleme de droits d'ecriture dans le repertoire courant.\n");
         exit(1);
@@ -49,7 +49,7 @@ void SauverEmprunts(Emprunt tEmprunts[], int nbEmprunts) {
 }
 void SauverInscriptions(Inscription tInscriptions[], int nbInscrits) {
     FILE *fb;
-    fb = fopen("bin/inscriptions_am_th.bin", "wb");
+    fb = fopen("inscriptions_am_th.bin", "wb");
     if (fb == NULL) {
         printf("Probleme de droits d'ecriture dans le repertoire courant.\n");
         exit(1);

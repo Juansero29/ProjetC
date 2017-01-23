@@ -55,7 +55,6 @@ Adherant SaisirAdherant(Adherant tAdherants[], int nbAdherants) {
     }
     printf("Num. Adherant: %d\n", adherant.numAdherant);
     printf("Entrez son nom (14 caracteres maximum): \n");
-    getchar();
     fgets(adherant.nomAdherant, 15, stdin);
     adherant.nomAdherant[strlen(adherant.nomAdherant)-1]= '\0';
     printf("Entrez son prenom (14 caracteres maximum): \n");
