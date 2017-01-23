@@ -1,4 +1,4 @@
-#include "projet.h"
+#include "../projet.h"
 
 
 void SupprimerAdherant(Adherant tAdherants[], int *nbAdherants) {
@@ -43,7 +43,6 @@ void SupprimerJeu(Jeu tJeux[], int *nbJeux){
     if (index == -1){
         printf("Le jeu a supprimer n'existe pas. \n");
     } else if (tJeux[index].nbEmprunts > 0 || tJeux[index].nbExemplaires > 0){
-        char rep;
         printf("Le jeu \"%s\" a %d emprunts en cours et %d exemplaires.\nVeuillez retourner l'emprunt de ce jeu avant de effectuer la suppression.\n", tJeux[index].nom, tJeux[index].nbEmprunts, tJeux[index].nbExemplaires);
         printf("La suppression a ete annulee. \n");
         sleep(5);

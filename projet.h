@@ -2,7 +2,6 @@
 // Created by Juan on 21/01/2017.
 //
 
-#define PRIXADHESION 15
 #define MAX_NUMADHERANT 999
 #include <unistd.h>
 #include <stdio.h>
@@ -12,7 +11,6 @@
 
 typedef struct {
     int jour, mois, annee;
-    char date[12];
     time_t time;
 }Date;
 
@@ -66,11 +64,9 @@ ApremTh *LireTAprems(int *nbAprems) ;
 Emprunt *LireEmprunts(int *nbEmprunts);
 Inscription *LireInscriptions(int *nbInscriptions);
 
-void echanger(Jeu t[], int i, int j);
 int partition(Jeu t[], int deb, int fin);
-void tri_rapide_bis(Jeu t[], int debut, int fin);
+void tri_rapide_(Jeu t[], int debut, int fin);
 void tri_rapide(Jeu t[], int nbJeux);
-int rechercheDich(Jeu tJeux[], int nbJeux, char nom[]);
 
 void Afficher1Adherant(Adherant adherant) ;
 void AfficherAdherants(Adherant tAdherants[], int nbAdherants) ;

@@ -2,7 +2,7 @@
 // Created by Juan on 1/22/2017.
 //
 
-#include "projet.h"
+#include "../projet.h"
 
 void Afficher1Adherant(Adherant adherant)  {
     printf("\n\n ADHERANT # : %d\n\tnom : %s\n\tprenom : %s\n\tnbEmpCourants : %d\n\tdateAdhesion : %d/%d/%d\n\n",

@@ -1,4 +1,4 @@
-#include "projet.h"
+#include "../projet.h"
 
 char *CreerIdentifiant(int length) {
     char *string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.-#'?!";
@@ -93,7 +93,6 @@ Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdhe
         emprunt.dateEmprunt.annee=-1;
         emprunt.dateEmprunt.jour=-1;
         emprunt.dateEmprunt.mois=-1;
-        strcpy(emprunt.dateEmprunt.date,"-1");
         strcpy(emprunt.nomJeu, "-1");
         return emprunt;
     }
@@ -123,7 +122,6 @@ Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdhe
         emprunt.dateEmprunt.annee=-1;
         emprunt.dateEmprunt.jour=-1;
         emprunt.dateEmprunt.mois=-1;
-        strcpy(emprunt.dateEmprunt.date,"-1");
         strcpy(emprunt.nomJeu, "-1");
         return emprunt;
     } else{

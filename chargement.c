@@ -1,4 +1,4 @@
-#include "projet.h"
+#include "../projet.h"
 
 Adherant *ChargerTAdherants(Adherant tAdherants[], int *nbAdherants, int *taillePhysique, int nbAjouts) {
     if(*nbAdherants == 0) {

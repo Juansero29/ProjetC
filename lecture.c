@@ -1,4 +1,4 @@
-#include "projet.h"
+#include "../projet.h"
 Adherant *LireTAdherants(int *nbAdherants) {
     Adherant *tAdherants;
     FILE *fb;

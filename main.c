@@ -3,29 +3,33 @@
 
 int main() {
     //Initialisation des tailles logiques.
-    int nbAdherants=0, nbJeux=0, nbEmprunts=0, nbInscrits=0, nbAprems=0;
+    int nbAdherants = 0, nbJeux = 0, nbEmprunts = 0, nbInscrits = 0, nbAprems = 0;
 
     //Initialisation des tableaux utilises dans le programme.
-    Adherant *tAdherants=NULL; Jeu *tJeux=NULL; Emprunt *tEmprunt=NULL; Inscription *tInscription=NULL; ApremTh *tAprem=NULL;
+    Adherant *tAdherants = NULL;
+    Jeu *tJeux = NULL;
+    Emprunt *tEmprunt = NULL;
+    Inscription *tInscription = NULL;
+    ApremTh *tAprem = NULL;
 
 
     //Initialisation des tailles physiques.
-    int tP_tAdh=0, tP_tJe=0, tP_tEmp=0, tP_tInsc=0, tP_tApr=0, choix = 0;
+    int tP_tAdh = 0, tP_tJe = 0, tP_tEmp = 0, tP_tInsc = 0, tP_tApr = 0, choix = 0;
 
     //Lire les fichiers qui sont dans le repertoire courant, récuperer les informations.}
-    if( access( "adherants.bin", F_OK ) == -1 ) {
+    if (access("adherants.bin", F_OK) == -1) {
         SauverAdherants(tAdherants, nbAdherants);
     }
-    if( access( "am_thematiques.bin", F_OK ) == -1 ) {
+    if (access("am_thematiques.bin", F_OK) == -1) {
         SauverAprems(tAprem, nbAprems);
     }
-    if( access( "emprunts.bin", F_OK ) == -1 ) {
+    if (access("emprunts.bin", F_OK) == -1) {
         SauverEmprunts(tEmprunt, nbEmprunts);
     }
-    if( access( "inscriptions_am_th.bin", F_OK ) == -1 ) {
+    if (access("inscriptions_am_th.bin", F_OK) == -1) {
         SauverInscriptions(tInscription, nbInscrits);
     }
-    if( access( "jeux.bin", F_OK ) == -1 ) {
+    if (access("jeux.bin", F_OK) == -1) {
         SauverJeux(tJeux, nbJeux);
     }
     tAdherants = LireTAdherants(&nbAdherants);
@@ -38,6 +42,9 @@ int main() {
     //Presenter le menu
     do
     {   int choix2 = 0;
+        printf("PROGRAMME: GESTION D'UNE LUDOTHEQUE %c V.8.0.0\n",184);
+        printf("Realise par: Juan RODRIGUEZ - Gerben DE VRIES\n");
+        printf("Encadr%cs par: BRIGOULET Pascale\n\n",130);
         printf("\n\n| MENU PRINCIPAL |\n\n");
         printf("1. MENU AJOUTER.\n");
         printf("2. MENU AFFICHAGE\n");
@@ -51,11 +58,11 @@ int main() {
                 do {
                     printf("\n\n| MENU AJOUTER|\n\n");
                     printf("1. AJOUTER UN NOUVEL ADHERENT. \n");
-                    printf("2. AJOUTER UN EMPRUNT\n");
+                    printf("2. RENOUVELLER UNE ADHESION. \n");
                     printf("3. AJOUTER UN JEU\n");
-                    printf("4. AJOUTER UNE APREM THEMATIQUE\n");
-                    printf("5. AJOUTER UNE INSCRIPTION A APREM THEMATIQUE\n");
-                    printf("6. AJOUTER UN RENOUVELLEMENT D'ADHESION. \n");
+                    printf("4. AJOUTER UN EMPRUNT\n");
+                    printf("5. AJOUTER UNE APREM THEMATIQUE\n");
+                    printf("6. INSCRIRE UN ADHERANT A UNE APREM THEMATIQUE\n");
                     printf("7. RETOURNER AU MENU PRINCIPAL.\n");
                     scanf("%d", &choix2);
                     switch (choix2) {
@@ -66,12 +73,8 @@ int main() {
                             break;
                         case 2:
                             system("cls");
-                            if(nbJeux > 0 && nbAdherants > 0){
-                                tEmprunt = ChargerTEmprunts(tAdherants, nbAdherants, tJeux, nbJeux, tEmprunt, &nbEmprunts, &tP_tEmp, 1);
-                                SauverEmprunts(tEmprunt, nbEmprunts);
-                            }else{
-                                printf("Impossible d'emprunter. Aucun jeu ou adherant trouve.\n");
-                            }
+                            RenouvellerAdhesion(tAdherants, nbAdherants);
+                            SauverAdherants(tAdherants, nbAdherants);
                             break;
                         case 3:
                             system("cls");
@@ -80,23 +83,28 @@ int main() {
                             break;
                         case 4:
                             system("cls");
-                            tAprem = ChargerTAprem(tAprem, &nbAprems, &tP_tApr, 1);
-                            SauverAprems(tAprem, nbAprems);
+                            if (nbJeux > 0 && nbAdherants > 0) {
+                                tEmprunt = ChargerTEmprunts(tAdherants, nbAdherants, tJeux, nbJeux, tEmprunt,
+                                                            &nbEmprunts, &tP_tEmp, 1);
+                                SauverEmprunts(tEmprunt, nbEmprunts);
+                            } else {
+                                printf("Impossible d'emprunter. Aucun jeu ou adherant trouve.\n");
+                            }
                             break;
                         case 5:
                             system("cls");
-                            if (nbAprems != 0 && nbAdherants!= 0) {
+                            tAprem = ChargerTAprem(tAprem, &nbAprems, &tP_tApr, 1);
+                            SauverAprems(tAprem, nbAprems);
+                            break;
+                        case 6:
+                            system("cls");
+                            if (nbAprems != 0 && nbAdherants != 0) {
                                 tInscription = ChargerTInscriptions(tInscription, &nbInscrits, &tP_tInsc, tAprem,
                                                                     nbAprems, tAdherants, nbAdherants, 1);
                                 SauverInscriptions(tInscription, nbInscrits);
                             } else {
                                 printf("Impossible de faire une inscription. Aucun adherant ou apres-midi trouve. \n");
                             }
-                            break;
-                        case 6:
-                            system("cls");
-                            RenouvellerAdhesion(tAdherants, nbAdherants);
-                            SauverAdherants(tAdherants, nbAdherants);
                             break;
                         case 7:
                             system("cls");
@@ -106,28 +114,29 @@ int main() {
                             scanf("%d", &choix2);
                             break;
                     }
-                }while (choix2 != 7);
+                } while (choix2 != 7);
                 break;
             case 2:
                 choix2 = 0;
                 do {
                     printf("\n\n| MENU AFFICHAGE |\n\n");
-                    printf("1. AFFICHER LA LISTE DE JEUX. (ORDRE ALPHABETIQUE). \n");
-                    printf("2. AFFICHER LA LISTE DES ADHERENTS.\n");
+                    printf("1. AFFICHER LA LISTE DES ADHERENTS.\n");
+                    printf("2. AFFICHER LA LISTE DE JEUX. (PAR ORDRE ALPHABETIQUE). \n");
                     printf("3. AFFICHER LES EMPRUNTS EN COURS. \n");
-                    printf("4. AFFICHER LA LISTE D'INSCRITS A UNE APRES-MIDI THEMATIQUE. \n");
-                    printf("5. AFFICHER LES EMPRUNTEURS QUI ONT UN RETARD. \n");
+                    printf("4. AFFICHER LES ADHERANTS AYANT AU MOINS UN RETARD. \n");
+                    printf("5. AFFICHER LA LISTE D'INSCRITS A UNE APRES-MIDI THEMATIQUE. \n");
                     printf("6. RETOURNER AU MENU PRINCIPAL. \n");
                     scanf("%d", &choix2);
                     switch (choix2) {
                         case 1:
                             system("cls");
-                            tri_rapide(tJeux, nbJeux); //On appelle la fonction tri_rapide qui tri le tableau de jeux par ordre alphabetique.
-                            AfficherJeux(tJeux, nbJeux); //On affiche les jeux.
+                            AfficherAdherants(tAdherants, nbAdherants);
                             break;
                         case 2:
                             system("cls");
-                            AfficherAdherants(tAdherants, nbAdherants);
+                            tri_rapide(tJeux, nbJeux);
+                            //On appelle la fonction tri_rapide qui tri le tableau de jeux par ordre alphabetique.
+                            AfficherJeux(tJeux, nbJeux); //On affiche les jeux.
                             break;
                         case 3:
                             system("cls");
@@ -135,12 +144,13 @@ int main() {
                             break;
                         case 4:
                             system("cls");
-                            AfficherAprem(tAprem, nbAprems, tInscription, nbInscrits, tAdherants, nbAdherants);
+                            AfficherRetards(tAdherants, nbAdherants, tEmprunt, nbEmprunts);
                             break;
                         case 5:
                             system("cls");
-                            AfficherRetards(tAdherants, nbAdherants, tEmprunt, nbEmprunts);
+                            AfficherAprem(tAprem, nbAprems, tInscription, nbInscrits, tAdherants, nbAdherants);
                             break;
+
                         case 6:
                             system("cls");
                             break;
