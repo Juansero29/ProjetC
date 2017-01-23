@@ -56,10 +56,10 @@ int main() {
                     printf("\n\n| MENU AJOUTER|\n\n");
                     printf("1. AJOUTER UN NOUVEL ADHERENT. \n");
                     printf("2. RENOUVELLER UNE ADHESION. \n");
-                    printf("3. AJOUTER UN JEU\n");
-                    printf("4. AJOUTER UN EMPRUNT\n");
-                    printf("5. AJOUTER UNE APREM THEMATIQUE\n");
-                    printf("6. INSCRIRE UN ADHERANT A UNE APREM THEMATIQUE\n");
+                    printf("3. AJOUTER UN JEU.\n");
+                    printf("4. AJOUTER UN EMPRUNT.\n");
+                    printf("5. AJOUTER UNE APREM THEMATIQUE.\n");
+                    printf("6. INSCRIRE UN ADHERANT A UNE APREM THEMATIQUE.\n");
                     printf("7. RETOURNER AU MENU PRINCIPAL.\n");
                     choix2 = SaisirEntier();
                     switch (choix2) {

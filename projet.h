@@ -1,7 +1,3 @@
-//
-// Created by Juan on 21/01/2017.
-//
-
 #define MAX_NUMADHERANT 999
 #include <unistd.h>
 #include <stdio.h>
