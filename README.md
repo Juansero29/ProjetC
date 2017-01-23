@@ -106,7 +106,7 @@ Nous allons prendre pour exemple la fonction AfficherJeux() :
     for (i = 0; i < nbJeux; i++) { 
         printf("\n\nNom : %s (%s) - # Exemplaires: %d \n", tJeux[i].nom, tJeux[i].nomCategorie, tJeux[i].nbExemplaires);
     } 
-}
+	}
 
 3ième sous-menu :
 Les fonctions de suppression permettent à l’utilisateur de supprimer un élément d’un tableau. Afin d’expliquer le fonctionnement de ces fonctions, on va s’appuyer sur l’exemple de la fonction SupprimerInscription() :
