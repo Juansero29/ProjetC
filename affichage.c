@@ -167,8 +167,9 @@ void tri_rapide(Jeu t[], int nbJeux) {
     tri_rapide_(t, 0, nbJeux - 1);
 }
 
-//Cette fonction procède à faire un partitionnemment du tableau des jeux et à un tri indépendant des deux sous-tableaux obtenus.
-//Le point pour effectuer cet partitionnement est indiqué par l'index 'pivot'. Le pivot sera placé toujours à ça place definitive.
-//Puis, on procède donc a permuter les elements de telle sorte que tous les éléments à gauche soient inferieurs au pivot et tous les éléments à droite soient supérieurs au pivot.
-//Finalement on définit un pivot pour chacun des sous-tablaux et on repète le partitionnement.
-//Ce processus est répété de facon recursif jusqu'à ce que tous les éléments soient triés.
+/* TriRapide:
+ * D'abord, cette fonction fait un partitionnemment du tableau des jeux en deux parties. Puis, elle fait un tri indépendant des deux sous-tableaux obtenus.
+ * Le point de départ pour effectuer cet partitionnement est indiqué par l'index 'pivot'. Le pivot sera placé toujours à ça place definitive (trié).
+ * Puis, on procède donc a permuter les elements de telle sorte que tous les éléments dans la partie gauche soient inferieurs au pivot et tous les éléments dans la partie droite soient supérieurs au pivot.
+ * Finalement on définit un pivot pour chacun des sous-tablaux et on repète le partitionnement.
+ * Ce processus est répété de manière recursive jusqu'à ce que tous les éléments soient triés.*/

@@ -195,7 +195,11 @@ int main() {
                     }
                 } while (choix2 != 5);
                 break;
-
+            case 4:
+                system("cls");
+                printf("\n\tMerci d'avoir utlise cette application! \n");
+                sleep(2);
+                break;
             default:
                 printf("Faites une choix parmi les options presentees.\n");
                 scanf("%d", &choix);

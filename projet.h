@@ -53,6 +53,7 @@ typedef struct {
 
 char *CreerIdentifiant(int length);
 Date SaisirDate() ;
+int SaisirEntier(void);
 Adherant SaisirAdherant(Adherant tAdherants[], int nbAdherants) ;
 Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdherants);
 ApremTh SaisirApremTh(ApremTh tAprems[], int nbAprems) ;

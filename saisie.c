@@ -73,13 +73,13 @@ Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdhe
     printf("\n\n|SAISIE D'UN EMPRUNT| \n\n");
     printf("Saisissez le numero de l'Adherant qui veut emprunter : \n");
     getchar();
-    scanf("%d", &emprunt.numAdherant);
+    emprunt.numAdherant = SaisirEntier();
     int posAdherant = RechercherAdherant(tAdherants, nbAdherants, emprunt.numAdherant);
     while (posAdherant == -1) {
         printf("Numero d'adherant inconnu. Faites un choix parmi la liste suivante :\n");
         AfficherAdherants(tAdherants, nbAdherants);
         printf("\n");
-        scanf("%d", &emprunt.numAdherant);
+        emprunt.numAdherant = SaisirEntier();
         posAdherant = RechercherAdherant(tAdherants, nbAdherants, emprunt.numAdherant);
     }
     time_t t = time(NULL);
@@ -119,6 +119,12 @@ Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdhe
     }
     if (tJeux[posJeu].nbExemplaires - tJeux[posJeu].nbEmprunts == 0){
         printf("Ce jeu ne peut pas etre emprunte, car tous les exemplaires sont actuellement empruntes.");
+        emprunt.dateEmprunt.time=-1;
+        emprunt.dateEmprunt.annee=-1;
+        emprunt.dateEmprunt.jour=-1;
+        emprunt.dateEmprunt.mois=-1;
+        strcpy(emprunt.dateEmprunt.date,"-1");
+        strcpy(emprunt.nomJeu, "-1");
         return emprunt;
     } else{
         tJeux[posJeu].nbEmprunts++;
@@ -140,8 +146,7 @@ ApremTh SaisirApremTh(ApremTh tAprems[], int nbAprems) {
         scanf("%d", &apremTh.heureDebut);
     }
     printf("Quel sera le nombre de places ?\n");
-    scanf("%d", &apremTh.nbPlaces);
-
+    apremTh.nbPlaces = SaisirEntier();
     apremTh.nbAdhInscrits = 0;
     strcpy(apremTh.codeAprem, CreerIdentifiant(2));
     int index = RechercherAprem(tAprems, nbAprems, apremTh.codeAprem);
@@ -250,13 +255,13 @@ Inscription SaisirInscription(ApremTh tApremTh[], int nbAprem, Adherant tAdheran
     tApremTh[indexAprem].nbAdhInscrits++;
 
     printf("Quel est le numero de l'Adherant a inscrire ?\n");
-    scanf("%d", &numAdherant);
+    numAdherant = SaisirEntier();
     indexAdherant = RechercherAdherant(tAdherants, nbAdherants, numAdherant);
     while (indexAdherant == -1) {
         printf("Numero d'adherant inconnu. Faites un choix parmi la liste suivante :\n");
         AfficherAdherants(tAdherants, nbAdherants);
         printf("\n\t Reessayez. Saissisez le numero de l'Adherant a inscrire: \n");
-        scanf("%d", &numAdherant);
+        numAdherant = SaisirEntier();
         indexAdherant = RechercherAdherant(tAdherants, nbAdherants, numAdherant);
     }
     indexAdherant = RechercherInscription(tInscriptions, nbInscriptions, numAprem, numAdherant);
@@ -273,4 +278,13 @@ Inscription SaisirInscription(ApremTh tApremTh[], int nbAprem, Adherant tAdheran
     printf("\n -- Adherant inscrit avec succes! --\n");
     return inscrip;
 }
-
+int SaisirEntier(void){
+    int x; char term;
+    int nb = scanf("%d%c", &x, &term);
+    while(nb != 2 || term != '\n'){
+        printf("\nSaisie incorrecte. Ressayez:\n");
+        getchar();
+        nb = scanf("%d%c", &x, &term);
+    }
+    return x;
+}
