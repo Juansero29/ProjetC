@@ -71,7 +71,6 @@ Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdhe
     Emprunt emprunt;
     printf("\n\n|SAISIE D'UN EMPRUNT| \n\n");
     printf("Saisissez le numero de l'Adherant qui veut emprunter : \n");
-    getchar();
     emprunt.numAdherant = SaisirEntier();
     int posAdherant = RechercherAdherant(tAdherants, nbAdherants, emprunt.numAdherant);
     while (posAdherant == -1) {
@@ -160,7 +159,6 @@ Jeu SaisirJeu(Jeu tJeux[], int nbJeux, int *indexDoublon) {
     Jeu jeu;
     int nbCateg;
     printf("Saisissez le nom du jeu : \n");
-    getchar();
     fgets(jeu.nom, 25, stdin);
     jeu.nom[strlen(jeu.nom) - 1] = '\0';
     int index = RechercherJeu(tJeux, nbJeux, jeu.nom);

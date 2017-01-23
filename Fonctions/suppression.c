@@ -42,6 +42,7 @@ void SupprimerJeu(Jeu tJeux[], int *nbJeux){
     index = RechercherJeu(tJeux, *nbJeux, nom);
     if (index == -1){
         printf("Le jeu a supprimer n'existe pas. \n");
+        return;
     } else if (tJeux[index].nbEmprunts > 0 || tJeux[index].nbExemplaires > 0){
         printf("Le jeu \"%s\" a %d emprunts en cours et %d exemplaires.\nVeuillez retourner l'emprunt de ce jeu avant de effectuer la suppression.\n", tJeux[index].nom, tJeux[index].nbEmprunts, tJeux[index].nbExemplaires);
         printf("La suppression a ete annulee. \n");
