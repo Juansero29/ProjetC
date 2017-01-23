@@ -16,19 +16,19 @@ int main() {
 
     //Lire les fichiers qui sont dans le repertoire courant, récuperer les informations.
     //Si on peut pas acceder le fichier, on le crée.
-    if (access("bin/adherants.bin", F_OK) == -1) {
+    if (access("adherants.bin", F_OK) == -1) {
         SauverAdherants(tAdherants, nbAdherants);
     }
-    if (access("bin/am_thematiques.bin", F_OK) == -1) {
+    if (access("am_thematiques.bin", F_OK) == -1) {
         SauverAprems(tAprem, nbAprems);
     }
-    if (access("bin/emprunts.bin", F_OK) == -1) {
+    if (access("emprunts.bin", F_OK) == -1) {
         SauverEmprunts(tEmprunt, nbEmprunts);
     }
-    if (access("bin/inscriptions_am_th.bin", F_OK) == -1) {
+    if (access("inscriptions_am_th.bin", F_OK) == -1) {
         SauverInscriptions(tInscription, nbInscrits);
     }
-    if (access("bin/jeux.bin", F_OK) == -1) {
+    if (access("jeux.bin", F_OK) == -1) {
         SauverJeux(tJeux, nbJeux);
     }
     tAdherants = LireTAdherants(&nbAdherants);
