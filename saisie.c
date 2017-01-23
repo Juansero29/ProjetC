@@ -89,6 +89,12 @@ Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdhe
     int jours = (int) (seconds / 24);
     if (jours > 365) {
         printf("L'adhesion de cet adherant a expiree!.");
+        emprunt.dateEmprunt.time=-1;
+        emprunt.dateEmprunt.annee=-1;
+        emprunt.dateEmprunt.jour=-1;
+        emprunt.dateEmprunt.mois=-1;
+        strcpy(emprunt.dateEmprunt.date,"-1");
+        strcpy(emprunt.nomJeu, "-1");
         return emprunt;
     }
     if (tAdherants[posAdherant].nbEmpCourants >= 3){
@@ -157,7 +163,7 @@ Jeu SaisirJeu(Jeu tJeux[], int nbJeux, int *indexDoublon) {
     jeu.nom[strlen(jeu.nom) - 1] = '\0';
     int index = RechercherJeu(tJeux, nbJeux, jeu.nom);
     while (index != -1) {
-        printf("Le nom saisi figure deja parmi les jeux existants. Voulez vous ajouter un examplaire pour le jeu \"%s\" ? (O / N)\n",
+        printf("\nLe nom saisi figure deja parmi les jeux existants. Voulez vous ajouter un examplaire pour le jeu \"%s\" ? (O / N)\n",
                tJeux[index].nom);
         char rep;
         scanf("%c", &rep);

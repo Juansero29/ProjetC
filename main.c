@@ -96,6 +96,7 @@ int main() {
                         case 6:
                             system("cls");
                             RenouvellerAdhesion(tAdherants, nbAdherants);
+                            SauverAdherants(tAdherants, nbAdherants);
                             break;
                         case 7:
                             system("cls");
@@ -121,8 +122,8 @@ int main() {
                     switch (choix2) {
                         case 1:
                             system("cls");
-                            trier(tJeux, nbJeux);
-                            AfficherJeux(tJeux, nbJeux);
+                            tri_rapide(tJeux, nbJeux); //On appelle la fonction tri_rapide qui tri le tableau de jeux par ordre alphabetique.
+                            AfficherJeux(tJeux, nbJeux); //On affiche les jeux.
                             break;
                         case 2:
                             system("cls");

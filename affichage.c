@@ -133,50 +133,42 @@ void AfficherRetards(Adherant tAdherants[], int nbadherants, Emprunt tEmprunts[]
         }
     }
     if(j==0){
-        printf("\nAucun emprunt n'est pas en retard a la date.\n");
+        printf("\nAucun emprunt n'est en retard a la date.\n");
     }
 }
 
-int rechercherMin(Jeu tJeux[], int nbJeux){
-    int i, min = 0;
-    for (i = 1; i < nbJeux; i++) {
-        if(strcmp(tJeux[i].nom, tJeux[min].nom) < 0){
-            min = i;
+void permuter(Jeu t[], int i, int j){
+    Jeu tmp;
+    tmp=t[i];
+    t[i]=t[j];
+    t[j]=tmp;
+}
+int partition(Jeu t[], int deb, int fin) {
+    int compt = deb;
+    Jeu pivot = t[deb];
+    int i;
+    for (i = deb + 1; i <= fin; i++) {
+        if (strcmp(t[i].nom, pivot.nom) <= 0){
+            compt++;
+            permuter(t, compt, i);
         }
     }
-    return min;
+    permuter(t, compt, deb);
+    return (compt);
 }
-void permute(Jeu tJeux[], int i, int j){
-    Jeu temp;
-    temp = tJeux[i];
-    tJeux[i] = tJeux[j];
-    tJeux[j] = temp;
-}
-void trier (Jeu tJeux[], int nb){
-    int rmin, k;
-    for (k = 0; k <= nb-2; k++){
-        rmin = rechercherMin(tJeux+k, nb-k);
-        permute(tJeux, k, rmin);
+void tri_rapide_(Jeu t[], int debut, int fin) {
+    if (debut < fin) {
+        int pivot = partition(t, debut, fin);
+        tri_rapide_(t, debut, pivot - 1);
+        tri_rapide_(t, pivot + 1, fin);
     }
 }
-int rechercheDich(Jeu tJeux[], int nbJeux, char nom[]){
-    int pos, m;
-    if(nbJeux == 0){
-        return nbJeux;
-    }
-    if(nbJeux == 1) {
-        if (strcmp(nom, tJeux[nbJeux].nom) <= 0) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
-    m = (nbJeux -1)/ 2;
-    if(strcmp(nom, tJeux[m].nom) <= 0) {
-        pos = rechercheDich(tJeux, m + 1, nom);
-    }
-    else{
-        pos = m+1+rechercheDich(tJeux+m+1, nbJeux-(m + 1), nom );
-    }
-    return pos;
+void tri_rapide(Jeu t[], int nbJeux) {
+    tri_rapide_(t, 0, nbJeux - 1);
 }
+
+//Cette fonction procède à faire un partitionnemment du tableau des jeux et à un tri indépendant des deux sous-tableaux obtenus.
+//Le point pour effectuer cet partitionnement est indiqué par l'index 'pivot'. Le pivot sera placé toujours à ça place definitive.
+//Puis, on procède donc a permuter les elements de telle sorte que tous les éléments à gauche soient inferieurs au pivot et tous les éléments à droite soient supérieurs au pivot.
+//Finalement on définit un pivot pour chacun des sous-tablaux et on repète le partitionnement.
+//Ce processus est répété de facon recursif jusqu'à ce que tous les éléments soient triés.

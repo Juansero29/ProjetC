@@ -44,25 +44,12 @@ void SupprimerJeu(Jeu tJeux[], int *nbJeux){
         printf("Le jeu a supprimer n'existe pas. \n");
     } else if (tJeux[index].nbEmprunts > 0 || tJeux[index].nbExemplaires > 0){
         char rep;
-        printf("Le jeu \"%s\" a %d emprunts en cours et %d exemplaires en stock. Etes-vous sur de vouloir effectuer cette suppression? (O / N)\n", tJeux[index].nom, tJeux[index].nbEmprunts, tJeux[index].nbExemplaires);
-        scanf("%c", &rep);
-        while (rep != 'O' && rep != 'N' && rep != 'o' && rep != 'n') {
-            printf("Saisie incorrecte, veuillez taper 'O' ou 'N'");
-            scanf("%c", &rep);
-            getchar();
+        printf("Le jeu \"%s\" a %d emprunts en cours et %d exemplaires.\nVeuillez retourner l'emprunt de ce jeu avant de effectuer la suppression.\n", tJeux[index].nom, tJeux[index].nbEmprunts, tJeux[index].nbExemplaires);
+        printf("La suppression a ete annulee. \n");
+        sleep(5);
+        system("cls");
+        return;
         }
-        if (rep == 'o' || rep == 'O') {
-            for (i = index; i < *nbJeux - 1; i++){
-                tJeux[i] = tJeux[i +1];
-            }
-            *nbJeux = *nbJeux - 1;
-            printf("La suppression a ete realisee avec succes. \n");
-            return;
-        } else {
-            printf("La suppression a ete annulee");
-            return;
-        }
-    }
     for (i = index; i < *nbJeux - 1; i++){
         tJeux[i] = tJeux[i +1];
     }

@@ -65,9 +65,10 @@ ApremTh *LireTAprems(int *nbAprems) ;
 Emprunt *LireEmprunts(int *nbEmprunts);
 Inscription *LireInscriptions(int *nbInscriptions);
 
-int rechercherMin(Jeu tJeux[], int nbJeux);
-void permute(Jeu tJeux[], int i, int j);
-void trier (Jeu tJeux[], int nb);
+void echanger(Jeu t[], int i, int j);
+int partition(Jeu t[], int deb, int fin);
+void tri_rapide_bis(Jeu t[], int debut, int fin);
+void tri_rapide(Jeu t[], int nbJeux);
 int rechercheDich(Jeu tJeux[], int nbJeux, char nom[]);
 
 void Afficher1Adherant(Adherant adherant) ;

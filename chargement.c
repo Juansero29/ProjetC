@@ -107,7 +107,12 @@ Emprunt *ChargerTEmprunts(Adherant tAdherants[], int nbAdherants, Jeu tJeux[], i
             tEmprunt = tEmpruntBuffer;
         }
         emprunt = SaisirEmprunt(tJeux, tAdherants, nbJeux, nbAdherants);
-        tEmprunt[*nbEmprunts] = emprunt;
+        if(emprunt.dateEmprunt.annee == -1){
+            *nbEmprunts = *nbEmprunts - 1;
+            empruntDeb--;
+        } else {
+            tEmprunt[*nbEmprunts] = emprunt;
+        }
     }
     return tEmprunt;
 }
