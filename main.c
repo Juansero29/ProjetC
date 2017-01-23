@@ -1,6 +1,5 @@
 #include "projet.h"
 
-
 int main() {
     //Initialisation des tailles logiques.
     int nbAdherants = 0, nbJeux = 0, nbEmprunts = 0, nbInscrits = 0, nbAprems = 0;
@@ -12,24 +11,24 @@ int main() {
     Inscription *tInscription = NULL;
     ApremTh *tAprem = NULL;
 
-
     //Initialisation des tailles physiques.
     int tP_tAdh = 0, tP_tJe = 0, tP_tEmp = 0, tP_tInsc = 0, tP_tApr = 0, choix = 0;
 
-    //Lire les fichiers qui sont dans le repertoire courant, récuperer les informations.}
-    if (access("adherants.bin", F_OK) == -1) {
+    //Lire les fichiers qui sont dans le repertoire courant, récuperer les informations.
+    //Si on peut pas acceder le fichier, on le crée.
+    if (access("bin/adherants.bin", F_OK) == -1) {
         SauverAdherants(tAdherants, nbAdherants);
     }
-    if (access("am_thematiques.bin", F_OK) == -1) {
+    if (access("bin/am_thematiques.bin", F_OK) == -1) {
         SauverAprems(tAprem, nbAprems);
     }
-    if (access("emprunts.bin", F_OK) == -1) {
+    if (access("bin/emprunts.bin", F_OK) == -1) {
         SauverEmprunts(tEmprunt, nbEmprunts);
     }
-    if (access("inscriptions_am_th.bin", F_OK) == -1) {
+    if (access("bin/inscriptions_am_th.bin", F_OK) == -1) {
         SauverInscriptions(tInscription, nbInscrits);
     }
-    if (access("jeux.bin", F_OK) == -1) {
+    if (access("bin/jeux.bin", F_OK) == -1) {
         SauverJeux(tJeux, nbJeux);
     }
     tAdherants = LireTAdherants(&nbAdherants);
@@ -38,23 +37,21 @@ int main() {
     tInscription = LireInscriptions(&nbInscrits);
     tAprem = LireTAprems(&nbAprems);
 
-
     //Presenter le menu
     do
     {   int choix2 = 0;
         printf("PROGRAMME: GESTION D'UNE LUDOTHEQUE %c V.8.0.0\n",184);
         printf("Realise par: Juan RODRIGUEZ - Gerben DE VRIES\n");
-        printf("Encadr%cs par: BRIGOULET Pascale\n\n",130);
+        printf("Encadr%cs par: BRIGOULET Pascale\n",130);
         printf("\n\n| MENU PRINCIPAL |\n\n");
         printf("1. MENU AJOUTER.\n");
         printf("2. MENU AFFICHAGE\n");
         printf("3. MENU SUPPRESSION\n");
         printf("4. QUITTER\n");
-        scanf("%d", &choix);
+        choix = SaisirEntier();
         system("cls");
         switch (choix) {
             case 1:
-                choix2 = 0;
                 do {
                     printf("\n\n| MENU AJOUTER|\n\n");
                     printf("1. AJOUTER UN NOUVEL ADHERENT. \n");
@@ -64,7 +61,7 @@ int main() {
                     printf("5. AJOUTER UNE APREM THEMATIQUE\n");
                     printf("6. INSCRIRE UN ADHERANT A UNE APREM THEMATIQUE\n");
                     printf("7. RETOURNER AU MENU PRINCIPAL.\n");
-                    scanf("%d", &choix2);
+                    choix2 = SaisirEntier();
                     switch (choix2) {
                         case 1:
                             system("cls");
@@ -111,13 +108,12 @@ int main() {
                             break;
                         default:
                             printf("Faites une choix parmi les options presentees.\n");
-                            scanf("%d", &choix2);
+                            choix2 = SaisirEntier();
                             break;
                     }
                 } while (choix2 != 7);
                 break;
             case 2:
-                choix2 = 0;
                 do {
                     printf("\n\n| MENU AFFICHAGE |\n\n");
                     printf("1. AFFICHER LA LISTE DES ADHERENTS.\n");
@@ -126,7 +122,7 @@ int main() {
                     printf("4. AFFICHER LES ADHERANTS AYANT AU MOINS UN RETARD. \n");
                     printf("5. AFFICHER LA LISTE D'INSCRITS A UNE APRES-MIDI THEMATIQUE. \n");
                     printf("6. RETOURNER AU MENU PRINCIPAL. \n");
-                    scanf("%d", &choix2);
+                    choix2 = SaisirEntier();
                     switch (choix2) {
                         case 1:
                             system("cls");
@@ -156,15 +152,13 @@ int main() {
                             break;
                         default:
                             printf("Faites une choix parmi les options presentees.\n");
-                            scanf("%d", &choix2);
+                            choix2 = SaisirEntier();
                             break;
                     }
                 } while (choix2 != 6);
                 break;
 
             case 3:
-                choix2 = 0;
-
                 do {
                     printf("\n\n| MENU SUPPRESSION |\n\n");
                     printf("1. SUPPRIMER UN ADHERENT. \n");
@@ -172,7 +166,7 @@ int main() {
                     printf("3. RETOURNER UN EMPRUNT.\n");
                     printf("4. DESINSCRIRE UN ADHERANT D'UNE APRES-MIDI.\n");
                     printf("5. RETOURNER AU MENU PRINCIPAL.\n");
-                    scanf("%d", &choix2);
+                    choix2 = SaisirEntier();
                     switch (choix2) {
                         case 1:
                             system("cls");
@@ -200,7 +194,7 @@ int main() {
                             break;
                         default:
                             printf("Faites une choix parmi les options presentees.\n");
-                            scanf("%d", &choix2);
+                            choix2 = SaisirEntier();
                             break;
                     }
                 } while (choix2 != 5);
@@ -211,8 +205,8 @@ int main() {
                 sleep(2);
                 break;
             default:
-                printf("Faites une choix parmi les options presentees.\n");
-                scanf("%d", &choix);
+                system("cls");
+                printf("\n\nFaites une choix parmi les options presentees.\n\n");
                 break;
         }
     } while (choix != 4);
