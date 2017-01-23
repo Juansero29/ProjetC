@@ -1,9 +1,7 @@
+De Vries Gerben - Rodriguez Juan | Groupe 7
 
-De Vries Gerben - Rodriguez Juan 
-Groupe 7
-
-Projet Structures de données – P2
-Gestion d’une Ludothèque
+**Projet Structures de données – P2
+Gestion d’une Ludothèque**
 
 Liste des fonctionnalités proposées : 
 
