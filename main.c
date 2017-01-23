@@ -40,7 +40,7 @@ int main() {
     //Presenter le menu
     do
     {   int choix2 = 0;
-        printf("PROGRAMME: GESTION D'UNE LUDOTHEQUE %c V.8.0.0\n",184);
+        printf("PROGRAMME: GESTION D'UNE LUDOTHEQUE %c V.10.0.0\n",184);
         printf("Realise par: Juan RODRIGUEZ - Gerben DE VRIES\n");
         printf("Encadr%cs par: BRIGOULET Pascale\n",130);
         printf("\n\n| MENU PRINCIPAL |\n\n");
