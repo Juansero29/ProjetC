@@ -54,14 +54,14 @@ Adherant SaisirAdherant(Adherant tAdherants[], int nbAdherants) {
         index = RechercherAdherant(tAdherants, nbAdherants, adherant.numAdherant);
     }
     printf("Num. Adherant: %d\n", adherant.numAdherant);
-    getchar();
     printf("Entrez son nom (14 caracteres maximum): \n");
+    getchar();
     fgets(adherant.nomAdherant, 15, stdin);
     adherant.nomAdherant[strlen(adherant.nomAdherant)-1]= '\0';
     printf("Entrez son prenom (14 caracteres maximum): \n");
     fgets(adherant.prenomAdherant, 15, stdin);
     adherant.prenomAdherant[strlen(adherant.prenomAdherant)-1]= '\0';
-    printf("Vous allez maintenant saisir sa date d'adhesion :\n");
+    printf("\nVous allez maintenant saisir sa date d'adhesion :\n");
     adherant.dateAdhesion = SaisirDate();
     adherant.nbEmpCourants = 0;
     system("cls");
