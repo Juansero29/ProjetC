@@ -19,12 +19,12 @@ void SupprimerAdherant(Adherant tAdherants[], int *nbAdherants, Inscription tIns
         posAdherant = RechercherAdherant(tAdherants, *nbAdherants, numAdherant);
     }
     if(tAdherants[posAdherant].nbEmpCourants > 0){
-        system("cls");
+        system("clear");
         printf("\nImpossible de supprimmer un adherant avec des emprunts en cours. Veuillez retourner premierement ses emprunts.\n");
         return;
     }
     if(AdherantEstDansUneAMT(numAdherant, tInscriptions, nbInscriptions) == 1){
-        system("cls");
+        system("clear");
         printf("\nImpossible de supprimmer un adherant inscrit a une apres-midi. Veuillez premierement lui desinscrire de tous les apres-midis.\n\n");
         return;
     }
@@ -32,7 +32,7 @@ void SupprimerAdherant(Adherant tAdherants[], int *nbAdherants, Inscription tIns
         tAdherants[i] = tAdherants[i + 1];
     }
     *nbAdherants = *nbAdherants - 1;
-    system("cls");
+    system("clear");
     printf("\nLa suppression a ete realisee avec succes.\n");
 }
 void SupprimerJeu(Jeu tJeux[], int *nbJeux){
@@ -60,14 +60,14 @@ void SupprimerJeu(Jeu tJeux[], int *nbJeux){
         printf("\nLe jeu %s a %d emprunts en cours et %d exemplaires.\nVeuillez retourner l'emprunt de ce jeu avant de effectuer la suppression.\n", tJeux[posJeu].nom, tJeux[posJeu].nbEmprunts, tJeux[posJeu].nbExemplaires);
         printf("\nLa suppression a ete annulee. \n");
         sleep(5);
-        system("cls");
+        system("clear");
         return;
     }
     for (i = posJeu; i < *nbJeux - 1; i++){
         tJeux[i] = tJeux[i +1];
     }
     *nbJeux = *nbJeux - 1;
-    system("cls");
+    system("clear");
     printf("-- La suppression a ete realisee avec succes! --\n");
     return;
 }
@@ -131,7 +131,7 @@ void RetournerEmprunt(Emprunt tEmprunts[], int *nbEmprunts, Adherant tAdherants[
         tEmprunts[i] = tEmprunts[i + 1];
     }
     *nbEmprunts = *nbEmprunts - 1;
-    system("cls");
+    system("clear");
     printf("\n-- Emprunt rendu avec succes! --- \n");
 }
 void SupprimerInscription(Inscription tInscriptions[], int *nbInscriptions, ApremTh tAprems[], int nbAprems, Adherant tAdherants[], int nbAdherants){
@@ -162,7 +162,7 @@ void SupprimerInscription(Inscription tInscriptions[], int *nbInscriptions, Apre
         }
     }
     if (j == 0){
-        system("cls");
+        system("clear");
         printf("\nCet adherant n'est inscrit a aucune apres-midi. Impossible d'annuler une inscription.\n");
         return;
     }
@@ -210,7 +210,7 @@ void RenouvellerAdhesion(Adherant tAdherants[], int nbAdherants){
     Date date = SaisirDate();
     tAdherants[posAdherant].dateAdhesion = date;
 
-    system("cls");
+    system("clear");
     printf("\n -- Adhesion renouvelee avec succes! --\n");
 }
 
