@@ -58,7 +58,7 @@ int main() {
         printf("3. MENU SUPPRESSION\n");
         printf("4. QUITTER\n");
         choix = SaisirEntier();
-        system("cls");
+        system("clear");
         switch (choix) {
             case 1:
                 do {
@@ -73,22 +73,22 @@ int main() {
                     choix2 = SaisirEntier();
                     switch (choix2) {
                         case 1:
-                            system("cls");
+                            system("clear");
                             tAdherants = ChargerTAdherants(tAdherants, &nbAdherants, &tP_tAdh, 1); //Chargue le tableau 'tAdherants' avec un Adherant.
                             SauverAdherants(tAdherants, nbAdherants); //Sauvegarde le tableau retourne dans le fichier correspondant.
                             break;
                         case 2:
-                            system("cls");
+                            system("clear");
                             RenouvellerAdhesion(tAdherants, nbAdherants);
                             SauverAdherants(tAdherants, nbAdherants);
                             break;
                         case 3:
-                            system("cls");
+                            system("clear");
                             tJeux = ChargerTJeux(tJeux, &nbJeux, &tP_tJe, 1);
                             SauverJeux(tJeux, nbJeux);
                             break;
                         case 4:
-                            system("cls");
+                            system("clear");
                             if (nbJeux > 0 && nbAdherants > 0) {
                                 tEmprunt = ChargerTEmprunts(tAdherants, nbAdherants, tJeux, nbJeux, tEmprunt,
                                                             &nbEmprunts, &tP_tEmp, 1);
@@ -98,12 +98,12 @@ int main() {
                             }
                             break;
                         case 5:
-                            system("cls");
+                            system("clear");
                             tAprem = ChargerTAprem(tAprem, &nbAprems, &tP_tApr, 1);
                             SauverAprems(tAprem, nbAprems);
                             break;
                         case 6:
-                            system("cls");
+                            system("clear");
                             if (nbAprems != 0 && nbAdherants != 0) {
                                 tInscription = ChargerTInscriptions(tInscription, &nbInscrits, &tP_tInsc, tAprem,
                                                                     nbAprems, tAdherants, nbAdherants, 1);
@@ -113,10 +113,10 @@ int main() {
                             }
                             break;
                         case 7:
-                            system("cls");
+                            system("clear");
                             break;
                         default:
-                            system("cls");
+                            system("clear");
                             printf("\nFaites une choix parmi les options presentees.\n\n\n");
                             break;
                     }
@@ -134,33 +134,33 @@ int main() {
                     choix2 = SaisirEntier();
                     switch (choix2) {
                         case 1:
-                            system("cls");
+                            system("clear");
                             AfficherAdherants(tAdherants, nbAdherants);
                             break;
                         case 2:
-                            system("cls");
+                            system("clear");
                             tri_rapide(tJeux, nbJeux);
                             //On appelle la fonction tri_rapide qui tri le tableau de jeux par ordre alphabetique.
                             AfficherJeux(tJeux, nbJeux); //On affiche les jeux.
                             break;
                         case 3:
-                            system("cls");
+                            system("clear");
                             AfficherEmprunts(tEmprunt, nbEmprunts);
                             break;
                         case 4:
-                            system("cls");
+                            system("clear");
                             AfficherRetards(tAdherants, nbAdherants, tEmprunt, nbEmprunts);
                             break;
                         case 5:
-                            system("cls");
+                            system("clear");
                             AfficherAprem(tAprem, nbAprems, tInscription, nbInscrits, tAdherants, nbAdherants);
                             break;
 
                         case 6:
-                            system("cls");
+                            system("clear");
                             break;
                         default:
-                            system("cls");
+                            system("clear");
                             printf("\nFaites une choix parmi les options presentees.\n\n\n");
                             break;
                     }
@@ -178,43 +178,43 @@ int main() {
                     choix2 = SaisirEntier();
                     switch (choix2) {
                         case 1:
-                            system("cls");
+                            system("clear");
                             SupprimerAdherant(tAdherants, &nbAdherants, tInscription, nbInscrits);
                             SauverAdherants(tAdherants, nbAdherants);
                             break;
                         case 2:
-                            system("cls");
+                            system("clear");
                             SupprimerJeu(tJeux, &nbJeux);
                             SauverJeux(tJeux, nbJeux);
                             break;
                         case 3:
-                            system("cls");
+                            system("clear");
                             RetournerEmprunt(tEmprunt, &nbEmprunts, tAdherants, nbAdherants, tJeux, nbJeux);
                             SauverEmprunts(tEmprunt, nbEmprunts);
                             break;
                         case 4:
-                            system("cls");
+                            system("clear");
                             SupprimerInscription(tInscription, &nbInscrits, tAprem, nbAprems, tAdherants,
                                                  nbAdherants);
                             SauverInscriptions(tInscription, nbInscrits);
                             break;
                         case 5:
-                            system("cls");
+                            system("clear");
                             break;
                         default:
-                            system("cls");
+                            system("clear");
                             printf("\nFaites une choix parmi les options presentees.\n\n\n");
                             break;
                     }
                 } while (choix2 != 5);
                 break;
             case 4:
-                system("cls");
+                system("clear");
                 printf("\n\tMerci d'avoir utilise cette application! \n");
                 sleep(2);
                 break;
             default:
-                system("cls");
+                system("clear");
                 printf("\nFaites une choix parmi les options presentees.\n\n\n");
                 break;
         }
