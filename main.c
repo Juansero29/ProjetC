@@ -40,11 +40,11 @@ int main() {
     //Presenter le menu
     do
     {   int choix2 = 0;
-        printf("PROGRAMME: GESTION D'UNE LUDOTHEQUE %c V.10.0.0\n",184);
+        printf("PROGRAMME: GESTION D'UNE LUDOTHEQUE %c V.11.0.0\n",184);
         printf("Realise par: Juan RODRIGUEZ - Gerben DE VRIES\n");
         printf("Encadr%cs par: BRIGOULET Pascale\n",130);
         printf("\n\n| MENU PRINCIPAL |\n\n");
-        printf("1. MENU AJOUTER.\n");
+        printf("1. MENU AJOUTER\n");
         printf("2. MENU AFFICHAGE\n");
         printf("3. MENU SUPPRESSION\n");
         printf("4. QUITTER\n");
@@ -107,8 +107,8 @@ int main() {
                             system("cls");
                             break;
                         default:
-                            printf("Faites une choix parmi les options presentees.\n");
-                            choix2 = SaisirEntier();
+                            system("cls");
+                            printf("\nFaites une choix parmi les options presentees.\n\n\n");
                             break;
                     }
                 } while (choix2 != 7);
@@ -151,8 +151,8 @@ int main() {
                             system("cls");
                             break;
                         default:
-                            printf("Faites une choix parmi les options presentees.\n");
-                            choix2 = SaisirEntier();
+                            system("cls");
+                            printf("\nFaites une choix parmi les options presentees.\n\n\n");
                             break;
                     }
                 } while (choix2 != 6);
@@ -170,7 +170,7 @@ int main() {
                     switch (choix2) {
                         case 1:
                             system("cls");
-                            SupprimerAdherant(tAdherants, &nbAdherants);
+                            SupprimerAdherant(tAdherants, &nbAdherants, tInscription, nbInscrits);
                             SauverAdherants(tAdherants, nbAdherants);
                             break;
                         case 2:
@@ -193,20 +193,20 @@ int main() {
                             system("cls");
                             break;
                         default:
-                            printf("Faites une choix parmi les options presentees.\n");
-                            choix2 = SaisirEntier();
+                            system("cls");
+                            printf("\nFaites une choix parmi les options presentees.\n\n\n");
                             break;
                     }
                 } while (choix2 != 5);
                 break;
             case 4:
                 system("cls");
-                printf("\n\tMerci d'avoir utlise cette application! \n");
+                printf("\n\tMerci d'avoir utilise cette application! \n");
                 sleep(2);
                 break;
             default:
                 system("cls");
-                printf("\n\nFaites une choix parmi les options presentees.\n\n");
+                printf("\nFaites une choix parmi les options presentees.\n\n\n");
                 break;
         }
     } while (choix != 4);

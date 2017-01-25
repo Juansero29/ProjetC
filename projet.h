@@ -79,8 +79,9 @@ int RechercherAprem(ApremTh tAprem[], int nbAprem, char numAprem[5]) ;
 int RechercherJeu(Jeu tJeux[], int nbJeux, char nomJeu[25]) ;
 int RechercherEmprunt(Emprunt tEmprunts[], int nbEmprunts, int numAdherant, char nomJeu[]);
 int RechercherInscription(Inscription tInscriptions[], int nbInscriptions, char numAprem[5], int numAdherant);
+int AdherantEstDansUneAMT(int numAdherant, Inscription tInscriptions[], int nbInscriptions);
 
-void SupprimerAdherant(Adherant tAdherants[], int *nbAdherants);
+void SupprimerAdherant(Adherant tAdherants[], int *nbAdherants, Inscription tInscriptions[], int nbInscriptions);
 void SupprimerJeu(Jeu tJeux[], int *nbJeux);
 void RetournerEmprunt(Emprunt tEmprunts[], int *nbEmprunts, Adherant tAdherants[], int nbAdherants, Jeu tJeux[], int nbJeux) ;
 void SupprimerInscription(Inscription tInscriptions[], int *nbInscriptions, ApremTh tAprems[], int nbAprems, Adherant tAdherants[], int nbAdherants);
