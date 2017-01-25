@@ -1,7 +1,7 @@
 #include "../projet.h"
 
 
-void SupprimerAdherant(Adherant tAdherants[], int *nbAdherants) {
+void SupprimerAdherant(Adherant tAdherants[], int *nbAdherants, Inscription tInscriptions[], int nbInscriptions) {
     if(*nbAdherants <= 0){
         printf("Aucun adherant n'a ete trouve. Impossible de supprimer. \n");
         return;
@@ -9,71 +9,84 @@ void SupprimerAdherant(Adherant tAdherants[], int *nbAdherants) {
     int i, numAdherant;
     printf("\n|SUPPRESSION D'UN ADHERANT|\n");
     printf("Saisissez le numero de l'adherant a supprimer: \n");
-    scanf("%d", &numAdherant);
+    numAdherant = SaisirEntier();
     int posAdherant = RechercherAdherant(tAdherants, *nbAdherants, numAdherant);
     while (posAdherant == -1) {
         printf("\nNumero d'adherant inconnu. Faites un choix parmi la liste suivante :\n");
         AfficherAdherants(tAdherants, *nbAdherants);
         printf("\n");
-        scanf("%d", &numAdherant);
+        numAdherant = SaisirEntier();
         posAdherant = RechercherAdherant(tAdherants, *nbAdherants, numAdherant);
     }
     if(tAdherants[posAdherant].nbEmpCourants > 0){
-        printf("\nImpossible de supprimmer un adherant avec des emprunts en cours.\n");
+        system("cls");
+        printf("\nImpossible de supprimmer un adherant avec des emprunts en cours. Veuillez retourner premierement ses emprunts.\n");
+        return;
+    }
+    if(AdherantEstDansUneAMT(numAdherant, tInscriptions, nbInscriptions) == 1){
+        system("cls");
+        printf("\nImpossible de supprimmer un adherant inscrit a une apres-midi. Veuillez premierement lui desinscrire de tous les apres-midis.\n\n");
         return;
     }
     for (i = posAdherant; i < *nbAdherants - 1; i++) {
         tAdherants[i] = tAdherants[i + 1];
     }
     *nbAdherants = *nbAdherants - 1;
-    printf("La suppression a ete realisee avec succes.\n");
+    system("cls");
+    printf("\nLa suppression a ete realisee avec succes.\n");
 }
 void SupprimerJeu(Jeu tJeux[], int *nbJeux){
     if(*nbJeux <= 0){
         printf("Aucun jeu n'a ete trouve. Impossible de supprimer. \n");
         return;
     }
-    int index, i;
+    int i;
     char nom[20];
-    printf("Saissisez le nom du jeu a supprimer: \n");
-    getchar();
+    printf("Saisissez le nom du jeu a supprimer : \n");
     fgets(nom, 25, stdin);
     nom[strlen(nom) - 1] = '\0';
-    index = RechercherJeu(tJeux, *nbJeux, nom);
-    if (index == -1){
-        printf("Le jeu a supprimer n'existe pas. \n");
-        return;
-    } else if (tJeux[index].nbEmprunts > 0 || tJeux[index].nbExemplaires > 0){
-        printf("Le jeu \"%s\" a %d emprunts en cours et %d exemplaires.\nVeuillez retourner l'emprunt de ce jeu avant de effectuer la suppression.\n", tJeux[index].nom, tJeux[index].nbEmprunts, tJeux[index].nbExemplaires);
-        printf("La suppression a ete annulee. \n");
+    int posJeu = RechercherJeu(tJeux, *nbJeux, nom);
+    while (posJeu == -1) {
+        printf("\nCe jeu n'existe pas. Voici la liste des jeux existants :\n");
+
+        AfficherJeux(tJeux, *nbJeux);
+        printf("\n");
+        printf("Saisissez le nom du jeu a emprunter : \n");
+        fgets(nom, 25, stdin);
+        nom[strlen(nom) - 1] = '\0';
+        posJeu = RechercherJeu(tJeux, *nbJeux, nom);
+    }
+    if (tJeux[posJeu].nbEmprunts > 0 || tJeux[posJeu].nbExemplaires > 0){
+        printf("\nLe jeu %s a %d emprunts en cours et %d exemplaires.\nVeuillez retourner l'emprunt de ce jeu avant de effectuer la suppression.\n", tJeux[posJeu].nom, tJeux[posJeu].nbEmprunts, tJeux[posJeu].nbExemplaires);
+        printf("\nLa suppression a ete annulee. \n");
         sleep(5);
         system("cls");
         return;
-        }
-    for (i = index; i < *nbJeux - 1; i++){
+    }
+    for (i = posJeu; i < *nbJeux - 1; i++){
         tJeux[i] = tJeux[i +1];
     }
     *nbJeux = *nbJeux - 1;
+    system("cls");
     printf("-- La suppression a ete realisee avec succes! --\n");
     return;
 }
 void RetournerEmprunt(Emprunt tEmprunts[], int *nbEmprunts, Adherant tAdherants[], int nbAdherants, Jeu tJeux[], int nbJeux) {
-    if(*nbEmprunts <= 0){
-        printf("Aucun emprunt n'a ete trouve. Impossible de supprimer. \n");
+    if(*nbEmprunts <= 0 || nbAdherants <= 0){
+        printf("Aucun emprunt ou adherant n'a ete trouve. Impossible de supprimer. \n");
         return;
     }
     Emprunt emprunt;
     int i;
     printf("\n| RETOURNER UN EMPRUNT |\n");
     printf("Saisissez le numero de l'Adherant qui retourne un emprunt: \n");
-    getchar();
-    scanf("%d", &emprunt.numAdherant);
+    emprunt.numAdherant = SaisirEntier();
     int posAdherant = RechercherAdherant(tAdherants, nbAdherants, emprunt.numAdherant);
     while (posAdherant == -1) {
         printf("Numero d'adherant inconnu. Vos choix sont parmis la liste suivante :\n");
         AfficherAdherants(tAdherants, nbAdherants);
         printf("\n");
-        scanf("%d", &emprunt.numAdherant);
+        emprunt.numAdherant = SaisirEntier();
         posAdherant = RechercherAdherant(tAdherants, nbAdherants, emprunt.numAdherant);
     }
     if (tAdherants[posAdherant].nbEmpCourants == 0) {
@@ -90,14 +103,13 @@ void RetournerEmprunt(Emprunt tEmprunts[], int *nbEmprunts, Adherant tAdherants[
     }
 
     printf("\n\nSaissisez le nom du jeu : \n");
-    getchar();
     fgets(emprunt.nomJeu, 25, stdin);
     emprunt.nomJeu[strlen(emprunt.nomJeu) - 1] = '\0';
 
     int posEmprunt = RechercherEmprunt(tEmprunts, *nbEmprunts, emprunt.numAdherant, emprunt.nomJeu);
 
     if (posEmprunt == -1) {
-        printf("L'emprunt saisi ne figure pas parmi les emprunts actuels. \n");
+        printf("\nL'emprunt saisi ne figure pas parmi les emprunts actuels. \n");
         sleep(2);
         return;
     }
@@ -132,13 +144,13 @@ void SupprimerInscription(Inscription tInscriptions[], int *nbInscriptions, Apre
     numAprem = malloc(sizeof(char) * (6));
     printf("\n|ANNULER L'INSCRIPTION A UNE APRES-MIDI|\n");
     printf("Saisissez le numero de l'adherant qui veut annuler son inscription : ");
-    scanf("%d", &numAdherant);
+    numAdherant = SaisirEntier();
     index = RechercherAdherant(tAdherants, nbAdherants, numAdherant);
     while (index == -1) {
         printf("Numero d'adherant inconnu. Faites un choix parmi la liste suivante :\n");
         AfficherAdherants(tAdherants, nbAdherants);
         printf("\n\t Reessayez. Saissisez le numero de l'Adherant a inscrire : \n");
-        scanf("%d", &numAdherant);
+        numAdherant = SaisirEntier();
         index = RechercherAdherant(tAdherants, nbAdherants, numAdherant);
     }
     printf("Cet adherant est inscrit aux apres-midis suivantes: \n");
@@ -185,13 +197,13 @@ void RenouvellerAdhesion(Adherant tAdherants[], int nbAdherants){
         printf("Aucun adherant n'est enregistre. Impossible de renouveller.\n "); return;
     }
     printf("Saisissez le numero de l'adherant qui souhaite renouveller son adhesion : \n");
-    scanf("%d", &numAdherant);
+    numAdherant = SaisirEntier();
     posAdherant = RechercherAdherant(tAdherants, nbAdherants , numAdherant);
     while (posAdherant == -1){
         printf("Cet adherant n'existe pas. Faites un choix parmi la liste suivante :\n");
         AfficherAdherants(tAdherants, nbAdherants);
         printf("\n");
-        scanf("%d", &numAdherant);
+        numAdherant = SaisirEntier();
         posAdherant = RechercherAdherant(tAdherants, nbAdherants, numAdherant);
     }
     printf("Vous allez maintenant saisir sa date de readhesion :\n");

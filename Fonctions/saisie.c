@@ -39,7 +39,6 @@ Date SaisirDate() {
     temps->tm_mon = date.mois - 1;
     temps->tm_mday = date.jour;
     date.time = mktime(temps);
-    //printf("\n-- Date saisie avec succes :  %d/%d/%d --\n\n", temps->tm_mday, temps->tm_mon + 1,temps->tm_year + 1900);
     return date;
 }
 Adherant SaisirAdherant(Adherant tAdherants[], int nbAdherants) {
@@ -86,7 +85,8 @@ Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdhe
     seconds = seconds / 60;
     int jours = (int) (seconds / 24);
     if (jours > 365) {
-        printf("L'adhesion de cet adherant a expiree!.");
+        system("cls");
+        printf("\nL'adhesion de cet adherant a expiree! Veuillez renouveller son adhesion...\n\n");
         emprunt.dateEmprunt.time=-1;
         emprunt.dateEmprunt.annee=-1;
         emprunt.dateEmprunt.jour=-1;
@@ -95,7 +95,14 @@ Emprunt SaisirEmprunt(Jeu tJeux[], Adherant tAdherants[], int nbJeux, int nbAdhe
         return emprunt;
     }
     if (tAdherants[posAdherant].nbEmpCourants >= 3){
-        printf("L'adherant %s emprunte deja 3 jeux. Il doit en ramener avant de pouvoir reemprunter.", tAdherants[posAdherant].nomAdherant);
+        system("cls");
+        printf("\nL'adherant %s emprunte deja 3 jeux. Il doit en retourner un avant de pouvoir re-emprunter.\n", tAdherants[posAdherant].nomAdherant);
+        emprunt.dateEmprunt.time=-1;
+        emprunt.dateEmprunt.annee=-1;
+        emprunt.dateEmprunt.jour=-1;
+        emprunt.dateEmprunt.mois=-1;
+        strcpy(emprunt.nomJeu, "-1");
+        return emprunt;
     }
     printf("Vous allez saisir la date de l'emprunt: \n");
     emprunt.dateEmprunt = SaisirDate();
@@ -180,8 +187,8 @@ Jeu SaisirJeu(Jeu tJeux[], int nbJeux, int *indexDoublon) {
         } else {
             printf("Saissisez donc un nom pour le nouveau jeu : \n");
             fgets(jeu.nom, 25, stdin);
-            index = RechercherJeu(tJeux, nbJeux, jeu.nom);
             jeu.nom[strlen(jeu.nom) - 1] = '\0';
+            index = RechercherJeu(tJeux, nbJeux, jeu.nom);
         }
     }
     printf("Quelle est la categorie du jeu ?(Entrez le numero correspondant)"
@@ -220,7 +227,7 @@ Jeu SaisirJeu(Jeu tJeux[], int nbJeux, int *indexDoublon) {
     return jeu;
 }
 Inscription SaisirInscription(ApremTh tApremTh[], int nbAprem, Adherant tAdherants[], int nbAdherants, Inscription tInscriptions[], int nbInscriptions) {
-    printf("\n\n|SAISIE D'UNE INSCRIPTION A UNE APRES-MIDI|");
+    printf("\n\n|SAISIE D'UNE INSCRIPTION A UNE APRES-MIDI|\n\n");
     Inscription inscrip;
     int indexAprem, indexAdherant;
     char *numAprem;
@@ -240,14 +247,14 @@ Inscription SaisirInscription(ApremTh tApremTh[], int nbAprem, Adherant tAdheran
     printf("\n\nL'apres-midi a ete trouve: \nNum. Aprem: %s\nDate : %d/%d/%d\nHeure de debut: %d heures.\n\n",
            tApremTh[indexAprem].codeAprem, tApremTh[indexAprem].date.jour, tApremTh[indexAprem].date.mois,
            tApremTh[indexAprem].date.annee, tApremTh[indexAprem].heureDebut);
-    if (tApremTh[indexAprem].nbPlaces == tApremTh[indexAprem].nbAdhInscrits) {
-        printf("Il ne reste plus de places pour cet evenement. Impossible d'inscrire quelqu'un de plus");
-        inscrip.numAdherant = 0;
+    if (tApremTh[indexAprem].nbPlaces <= tApremTh[indexAprem].nbAdhInscrits) {
+        system("cls");
+        printf("\nIl ne reste plus de places pour cet evenement. Impossible d'inscrire quelqu'un de plus. \n\n");
+        inscrip.numAdherant = -1;
         return inscrip;
     }
     strcpy(inscrip.codeAprem, numAprem);
 
-    tApremTh[indexAprem].nbAdhInscrits++;
 
     printf("Quel est le numero de l'Adherant a inscrire ?\n");
     numAdherant = SaisirEntier();
@@ -259,11 +266,25 @@ Inscription SaisirInscription(ApremTh tApremTh[], int nbAprem, Adherant tAdheran
         numAdherant = SaisirEntier();
         indexAdherant = RechercherAdherant(tAdherants, nbAdherants, numAdherant);
     }
-    indexAdherant = RechercherInscription(tInscriptions, nbInscriptions, numAprem, numAdherant);
+    int est;
+    est = RechercherInscription(tInscriptions, nbInscriptions, numAprem, numAdherant);
 
-    if (indexAdherant != -1) {
-        printf("L'adherant est deja inscrit a cette apres-midi !\n");
+    if (est != -1) {
+        system("cls");
+        printf("\nL'adherant est deja inscrit a cette apres-midi !\n");
         inscrip.numAdherant = -1;
+        return inscrip;
+    }
+    time_t t = time(NULL);
+    double seconds = difftime(t, tAdherants[indexAdherant].dateAdhesion.time);
+    seconds = seconds / 60;
+    seconds = seconds / 60;
+    int jours = (int) (seconds / 24);
+    if (jours > 365) {
+        system("cls");
+        printf("\nL'adhesion de cet adherant a expiree! Veuillez renouveller son adhesion...\n\n");
+        inscrip.numAdherant=-1;
+        strcpy(inscrip.codeAprem,"-1");
         return inscrip;
     }
     strcpy(inscrip.codeAprem, numAprem);

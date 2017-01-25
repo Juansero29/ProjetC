@@ -45,3 +45,12 @@ int RechercherJeu(Jeu tJeux[], int nbJeux, char nomJeu[25]) {
     }
     return RechercherJeu(tJeux, nbJeux - 1, nomJeu);
 }
+int AdherantEstDansUneAMT(int numAdherant, Inscription tInscriptions[], int nbInscriptions){
+    int i;
+    for (i=0; i<nbInscriptions; i++){
+        if(numAdherant == tInscriptions[i].numAdherant){
+            return 1;
+        }
+    }
+    return 0;
+}

@@ -23,7 +23,7 @@ void AfficherJeux(Jeu tJeux[], int nbJeux) {
 
     int i;
     for (i = 0; i < nbJeux; i++) {
-        printf("\n\nNom : %s (%s) - # Exemplaires: %d \n", tJeux[i].nom, tJeux[i].nomCategorie, tJeux[i].nbExemplaires);
+        printf("\n\nNom : %s (%s) - # Exemplaires: %d - Emprunts en cours: %d", tJeux[i].nom, tJeux[i].nomCategorie, tJeux[i].nbExemplaires, tJeux[i].nbEmprunts);
     }
     if(nbJeux == 0){
         printf("\nAucun jeu n'a ete trouve.\n");
