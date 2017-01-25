@@ -1,6 +1,8 @@
 #include "projet.h"
 
 int main() {
+    system("COLOR 0A");
+    SetConsoleTitle("\t\tGESTION D'UNE LUDOTHEQUE");
     //Initialisation des tailles logiques.
     int nbAdherants = 0, nbJeux = 0, nbEmprunts = 0, nbInscrits = 0, nbAprems = 0;
 
@@ -14,23 +16,30 @@ int main() {
     //Initialisation des tailles physiques.
     int tP_tAdh = 0, tP_tJe = 0, tP_tEmp = 0, tP_tInsc = 0, tP_tApr = 0, choix = 0;
 
+    DIR* dir = opendir("bin");
+    if (!dir)
+    {
+        mkdir("bin");
+    }
+
     //Lire les fichiers qui sont dans le repertoire courant, récuperer les informations.
     //Si on peut pas acceder le fichier, on le crée.
-    if (access("adherants.bin", F_OK) == -1) {
+    if (access("bin/adherants.bin", F_OK) == -1) {
         SauverAdherants(tAdherants, nbAdherants);
     }
-    if (access("am_thematiques.bin", F_OK) == -1) {
+    if (access("bin/am_thematiques.bin", F_OK) == -1) {
         SauverAprems(tAprem, nbAprems);
     }
-    if (access("emprunts.bin", F_OK) == -1) {
+    if (access("bin/emprunts.bin", F_OK) == -1) {
         SauverEmprunts(tEmprunt, nbEmprunts);
     }
-    if (access("inscriptions_am_th.bin", F_OK) == -1) {
+    if (access("bin/inscriptions_am_th.bin", F_OK) == -1) {
         SauverInscriptions(tInscription, nbInscrits);
     }
-    if (access("jeux.bin", F_OK) == -1) {
+    if (access("bin/jeux.bin", F_OK) == -1) {
         SauverJeux(tJeux, nbJeux);
     }
+
     tAdherants = LireTAdherants(&nbAdherants);
     tJeux = LireTJeux(&nbJeux);
     tEmprunt = LireEmprunts(&nbEmprunts);
