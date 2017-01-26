@@ -12,8 +12,8 @@ char *CreerIdentifiant(int length) {
     }
 
     unsigned int cle = 0;
-
-    for (int n = 0;n < length;n++) {
+	int n;
+    for (n = 0;n < length;n++) {
         cle = rand() % stringLen;
         Identifiant[n] = string[cle];
     }
