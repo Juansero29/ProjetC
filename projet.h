@@ -6,7 +6,7 @@
 #include <time.h>
 #include <dirent.h>
 #include <sys/stat.h>
-#include <windows.h>
+
 
 typedef struct {
     int jour, mois, annee;

@@ -2,7 +2,6 @@
 
 int main() {
     system("COLOR 0A");
-    SetConsoleTitle("\t\tGESTION D'UNE LUDOTHEQUE");
     //Initialisation des tailles logiques.
     int nbAdherants = 0, nbJeux = 0, nbEmprunts = 0, nbInscrits = 0, nbAprems = 0;
 
@@ -15,12 +14,6 @@ int main() {
 
     //Initialisation des tailles physiques.
     int tP_tAdh = 0, tP_tJe = 0, tP_tEmp = 0, tP_tInsc = 0, tP_tApr = 0, choix = 0;
-
-    DIR* dir = opendir("bin");
-    if (!dir)
-    {
-        mkdir("bin");
-    }
 
     //Lire les fichiers qui sont dans le repertoire courant, récuperer les informations.
     //Si on peut pas acceder le fichier, on le crée.
