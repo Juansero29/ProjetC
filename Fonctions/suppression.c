@@ -120,6 +120,7 @@ void RetournerEmprunt(Emprunt tEmprunts[], int *nbEmprunts, Adherant tAdherants[
     seconds = seconds / 60;
     seconds = seconds / 60;
     int jours = (int) (seconds / 24);
+    system("cls");
     if (jours > 21) {
         int retard = jours - 21;
         printf("Cet emprunt a ete rendu avec un retard de %d jours.\n", retard);
@@ -131,7 +132,6 @@ void RetournerEmprunt(Emprunt tEmprunts[], int *nbEmprunts, Adherant tAdherants[
         tEmprunts[i] = tEmprunts[i + 1];
     }
     *nbEmprunts = *nbEmprunts - 1;
-    system("cls");
     printf("\n-- Emprunt rendu avec succes! --- \n");
 }
 void SupprimerInscription(Inscription tInscriptions[], int *nbInscriptions, ApremTh tAprems[], int nbAprems, Adherant tAdherants[], int nbAdherants){
