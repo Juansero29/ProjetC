@@ -15,6 +15,12 @@ int main() {
     //Initialisation des tailles physiques.
     int tP_tAdh = 0, tP_tJe = 0, tP_tEmp = 0, tP_tInsc = 0, tP_tApr = 0, choix = 0;
 
+
+	struct stat st = {0};
+
+	if (stat("./bin", &st) == -1) {
+	    mkdir("./bin", 0700);
+	}
     //Lire les fichiers qui sont dans le repertoire courant, récuperer les informations.
     //Si on peut pas acceder le fichier, on le crée.
     if (access("bin/adherants.bin", F_OK) == -1) {
