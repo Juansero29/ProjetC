@@ -3,7 +3,23 @@ De Vries Gerben - Rodriguez Juan | Groupe 7
 **Projet Structures de données – P2
 Gestion d’une Ludothèque**
 
-Liste des fonctionnalités proposées : 
+## Compilation:
+
+*La commande utilisé sous la famille POSIX pour compiler et générer un éxécutable de cette aplication est la suivante:*
+
+```
+gcc main.c ./Fonctions/*.c -o Main
+```
+Ainsi on génére un éxécutable de nom 'Main' qu'on pourra éxecuter après en utilisant
+
+```
+./Main
+```
+
+
+
+
+## Liste des fonctionnalités proposées:
 
 - Un menu principal à partir duquel l’utilisateur choisit les actions qu’il veut effectuer. A partir de ce dernier, il va choisir s’il veut faire l’affichage d’une liste, ajouter un élément à une liste ou encore supprimer un élément en saisissant le nombre correspondant au choix voulu, ce qui va permettre d’accéder au sous-menu.
 
@@ -14,13 +30,13 @@ Liste des fonctionnalités proposées :
 - Enfin, dans le 3eme sous-menu, on peut choisir de supprimer : un adhérent, un jeu ; de rendre un emprunt, ou de désinscrire un adhérant d’une après-midi thématique.
 
 
-Description des fonctionnalités : 
+## Description des fonctionnalités
 
 1er sous-menu :
 Le fonctionnement des fonctions qui ajoutent des éléments dans les tableaux est très similaire. On passe en paramètres les tableaux permettant de faire les vérifications des contraintes souhaitées ainsi que les tableaux directement concernés par l’ajout des nouvelles valeurs. Nous commenterons une fonction de chaque type afin d’en expliquer le fonctionnement général.
-On prend pour exemple la fonction ChargerTAprem(), qui permet d’ajouter des Après-midis dans le tableau tAprem[]
+On prend pour exemple la fonction ChargerTAprem(), qui permet d’ajouter des après-midis dans le tableau tAprem[]
 
-
+```C
 	ApremTh *ChargerTAprem(ApremTh tAprem[], int *nbAprems, int *taillePhysique, int nbAjouts) {
 	if(*nbAprems == 0) {
 	// si le nombre d’éléments du tableau est égal à 0, on n’a pas encore fait de malloc pour le tableau. On le fait donc maintenant.
@@ -49,6 +65,7 @@ On prend pour exemple la fonction ChargerTAprem(), qui permet d’ajouter des Ap
 
 	return tAprem;
 	// on renvoie tAprem avec son nouveau contenu
+```
 
 
 
@@ -57,7 +74,7 @@ On tient compte des contraintes lors de la saisie. Par exemple, lors de la saisi
 
 Explication de la fonction SaisirApremTh() :
 
-
+```C
 	ApremTh SaisirApremTh(ApremTh tAprems[], int nbAprems) {
     ApremTh apremTh;
     printf("\n\n|SAISIE APRES-MIDI THEMATIQUE|\n\n");
@@ -89,10 +106,13 @@ Explication de la fonction SaisirApremTh() :
 	    printf("\n-- Apres-midi thematique cree avec succes! --\n");
 	    return apremTh;
 	}
+```
 
 2ième sous-menu :
 Les fonctions d’affichage, elles aussi, sont très similaires. Chaque fonction d’affichage d’un tableau affiche les éléments de ce dernier.
 Nous allons prendre pour exemple la fonction AfficherJeux() :
+
+```C
 
 	void AfficherJeux(Jeu tJeux[], int nbJeux) {
 	// si le tableau de jeu ne contient aucun élément, on affiche un    message spécifique.
@@ -102,14 +122,18 @@ Nous allons prendre pour exemple la fonction AfficherJeux() :
     }
 
     int i; // on initialise un compteur
+
     // on répète l’affichage autant de fois qu’il y’a d’éléments.
     for (i = 0; i < nbJeux; i++) { 
         printf("\n\nNom : %s (%s) - # Exemplaires: %d \n", tJeux[i].nom, tJeux[i].nomCategorie, tJeux[i].nbExemplaires);
     } 
 	}
+```
 
 3ième sous-menu :
 Les fonctions de suppression permettent à l’utilisateur de supprimer un élément d’un tableau. Afin d’expliquer le fonctionnement de ces fonctions, on va s’appuyer sur l’exemple de la fonction SupprimerInscription() :
+
+```C
 
 	void SupprimerInscription(Inscription tInscriptions[], int *nbInscriptions, ApremTh tAprems[], int nbAprems, Adherant tAdherants[], int nbAdherants){
 	    // le tableau dont on veut supprimer des éléments est passé en paramètres, ainsi que d’autres tableaux qui permettent de vérifier les contraintes voulues.
@@ -175,11 +199,13 @@ Les fonctions de suppression permettent à l’utilisateur de supprimer un élé
 	    *nbInscriptions = *nbInscriptions - 1;
 	    printf("—L’adherant a bien annule son inscription! --\n");
 	}
+```
 
 
 Explication des fonctions de recherche :
 Nous avons utilisé des fonctions de recherche récursives. Lorsque l’élément recherché est trouvé, on envoie son rang dans le tableau et sinon, on renvoie -1.
 
+```C
 	int RechercherEmprunt(Emprunt tEmprunts[], int nbEmprunts, int numAdherant, char nomJeu[]){
 	    if (strcmp(tEmprunts[nbEmprunts].nomJeu, nomJeu) == 0 && tEmprunts[nbEmprunts].numAdherant == numAdherant) {
 		return nbEmprunts;
@@ -189,7 +215,7 @@ Nous avons utilisé des fonctions de recherche récursives. Lorsque l’élémen
 	    }
 	    return RechercherEmprunt(tEmprunts, nbEmprunts - 1, numAdherant, nomJeu);
 	}
-
+```
 
 Explication fonction de tri (utilisée pour trier la liste des jeux par ordre alphabétique) :
 D'abord, cette fonction partitionne le tableau des jeux en deux parties. Puis, elle fait un tri indépendant des deux sous-tableaux obtenus. 
@@ -198,12 +224,14 @@ Puis, on procède à la permutation des éléments de telle sorte à ce que ceux
 Finalement, on définit un pivot pour chacun des sous-tableaux et on répète le partitionnement. Ce processus est répété de manière récursive jusqu'à ce que tous les éléments soient triés.
 
 Explication des contrôles dans les fonctions de saisie : 
-
+```C
 	SaisirDate() :
 	while(date.jour < 1 || date.jour > 31 || date.mois < 1 || date.mois > 12 || date.annee < 1900 || date.annee > 2150){
 	    printf("\nSaisie incorrecte. Reessayez (au format JJ/MM/AAAA) :\n");
 	    scanf("%d/%d/%d", &date.jour, &date.mois, &date.annee);
 	}
+```
+
 On demande à l’utilisateur de faire une saisie de la date tant qu’elle est incorrecte.
 
 SaisirAdherant() :
@@ -236,6 +264,7 @@ Après chaque modification d’un élément d’un tableau, on sauvegarde le tab
 
 Nous prenons comme exemple la fonction SauverAdherant()
 
+```C
 	void SauverAdherants(Adherant tAdherants[], int nbAdherants) {
 		    FILE *fb;
 		// déclaration du pointeur fb
@@ -253,11 +282,13 @@ Nous prenons comme exemple la fonction SauverAdherant()
 		    fclose(fb);
 		// et on n’oublie pas de fermer le fichier.
 		}
+```
 
 Explication des fonctions de lecture :
 Au début du programme, on lit le nombre d’éléments des tableaux, on alloue la mémoire nécessaire en fonction du nombre d’éléments que possède chacun d’entre eux, puis on les remplit grâce aux données stockées dans les fichiers binaires.
 Exemple : la fonction LireEmprunts ()
 
+```C
 	Emprunt *LireEmprunts(int *nbEmprunts){
 	    FILE *fb;
 	    fb = fopen("emprunts.bin", "rb");
@@ -278,28 +309,32 @@ Exemple : la fonction LireEmprunts ()
 	    fread(tEmprunt, sizeof(Emprunt), (size_t)*nbEmprunts, fb);
 	    return tEmprunt;
 	}
+````
 
 Explication des structures :
 Dans notre programme, nous avons utilisés 6 structures. Chacune d’entre elles répond à un besoin essentiel de l’application. Les structures implémentées sont les suivantes : 
 Structure ‘Date’ :
 
+```C
 	typedef struct {
 	    int jour, mois, annee;
 	    time_t time;
 	}Date;
-
+```
 Cette structure est composée de trois entiers : « jour », « mois » et « annee » qui permettent de stocker les informations nécessaires au moment de saisir une date. Puis, en utilisant ces entiers enregistrés, on crée une variable « time » de type « time_t » qui garde une valeur de temps du système. 
 Structure ‘Jeu’ :
-
+```C
 	typedef struct {
 	    char nom[25];
 	    char nomCategorie[20];
 	    int nbExemplaires;
 	    int nbEmprunts;
 	}Jeu;
+```
 
 Cette structure est composée deux chaînes de caractères et deux entiers. Le nom sert comme identifiant pour cette structure car on n’accepte pas deux jeux avec le même nom. Si au moment de saisir un jeu il se trouve que le nom est déjà parmi les jeux existants, on augmente la variable « nbExemplaires » de un. Finalement, la variable « nbEmprunts » garde le nombre de emprunts courants pour ce jeu. Un jeu qui a 2 exemplaires et 2 emprunts ne pourra donc pas être emprunté à ce moment-là.
 
+```C
 Structure ‘Emprunt’ :
 
 	typedef struct {
@@ -307,9 +342,11 @@ Structure ‘Emprunt’ :
 	    char nomJeu[25];
 	    int numAdherant;
 	}Emprunt;
+````
 
 Cette structure est composée d’une variable de type « Date » qui indique quand l’emprunt a été effectué. Elle contient aussi le nom du jeu emprunté sous forme de chaine de caractères et finalement l’adhèrent qui a effectué cet emprunt.
 
+```C
 Structure ‘Adherant’ :
 	typedef struct {
 	    int numAdherant;
@@ -318,11 +355,11 @@ Structure ‘Adherant’ :
 	    int nbEmpCourants;
 	    Date dateAdhesion;
 	}Adherant;
-
+```
 Cette structure est composée d’abord d’un entier qui sert comme identifiant unique pour un adhérent. Cet entier est créé à partir de la fonction CreerIdentifiant () . En plus, la structure contient le nom et le prénom du adhérant, suivi d’un entier qui garde le nombre d’emprunts courants pour cet adhérent et une variable de type « Date » qui garde sa date d’adhésion à la Ludothèque.
 
 Structure ‘ApremTh’ :
-
+```C
 	typedef struct {
 	    char codeAprem[6];
 	    Date date;
@@ -330,14 +367,14 @@ Structure ‘ApremTh’ :
 	    int nbPlaces;
 	    int nbAdhInscrits;
 	}ApremTh;
-
+```
 Cette structure est composée d’un code unique « codeAprem » qui est initialisée à partir de la fonction CreerIdentifiant (). La structure contient aussi une variable de type « Date » qui garde la date de l’évènement. Finalement, elle garde aussi le nombre de places pour cet évènement dans la variable « nbPlaces » et le nombre d’inscrits dans la variable « nbAdhInscrits ». Un adhérent ne pourra pas s’inscrire à une après-midi qui contient des valeurs égales pour « nbPlaces » et « nbAdhInscrits ».
 Structure ‘Inscription’ :
-
+```C
 	typedef struct {
 	    char codeAprem[6];
 	    int numAdherant;
 	}Inscription;
-
+```
 Cette structure permet d’effectuer l’inscription d’un membre à une après-midi thématique. Elle contient les identifiants des deux structures concernées. « codeAprem » sert à identifier l’après-midi à laquelle l’adhèrent est inscrit et « numAdherant » sert à identifier l’adhèrent qui est inscrit.
 
